@@ -4,4 +4,11 @@
 <h2>@ViewData["Title"].</h2>
 <h3>@ViewData["Message"]</h3>
 
-<p>Use this area to provide additional information.</p>
+<p>So here is some information about the game:</p>
+<h4>You can do:</h4>
+<ul>
+    @for (int i = 0; i < 5; i++)
+    {
+        <li>Feature @i</li>
+    }
+</ul>

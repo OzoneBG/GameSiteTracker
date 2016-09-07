@@ -8,6 +8,9 @@
     using Microsoft.Extensions.Logging;
     using Models;
     using Services;
+    using Models.AccountViewModels;
+    using System.Security.Claims;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     [Authorize]
     public class AccountController : Controller

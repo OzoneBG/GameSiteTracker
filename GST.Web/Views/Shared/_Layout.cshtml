@@ -3,49 +3,80 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - GST.Web</title>
-
+    <title>@ViewData["Title"] - Game Site Tracker</title>
     <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
+        <link rel="stylesheet" href="https://bootswatch.com/cyborg/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+<body id="background">
+    <!-- HEADER START -->
+    <div class="navbar navbar-default navbar-color">
+        <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-controller="Home" asp-action="Index" class="navbar-brand">GST.Web</a>
+                @Html.ActionLink("[Game Name]", "Index", "Home", null, new { @class = "navbar-brand"})
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gallery <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Pictures</a></li>
+                            <li><a href="#">Videos</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Progress</a></li>
+                    <li><a href="#">Downloads</a></li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2016 - GST.Web</p>
-        </footer>
+    <!-- HEADER END -->
+    <!-- MAIN SECTION START -->
+    <div class="container" id="main-section" style="padding-top: 100px">
+        <div class="row">
+            <div class="col-md-3 transparent-bg" id="side-section">
+                <center>
+                    <h4 class="content-header">Stats</h4>
+                    <hr />
+                    <ul class="list-group">
+                        <li class="list-group-item">Total Downloads: [number]</li>
+                        <li class="list-group-item">Latest build: [version]</li>
+                        <li class="list-group-item">ETA: [number] days</li>
+                        <li class="list-group-item">Current build tasks: [number]</li>
+                    </ul>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%;">
+                            5/10
+                        </div>
+                    </div>
+                </center>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-8 transparent-bg text-color" id="main-content">
+                @RenderBody()
+            </div>
+        </div>
     </div>
-
+    <!-- MAIN SECTION END -->
+    <!-- FOOTER START -->
+    <div class="footer">Website developed by Kyojin96 Copyrights &copy; 2016</div>
+    <!-- FOOTER END -->
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -66,3 +97,4 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
