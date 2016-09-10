@@ -1,12 +1,12 @@
-﻿namespace GST.Web.Data
+﻿namespace GST.Data
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Models;
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class GSTDbContext : IdentityDbContext<User>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public GSTDbContext(DbContextOptions<GSTDbContext> options)
             : base(options)
         {
         }

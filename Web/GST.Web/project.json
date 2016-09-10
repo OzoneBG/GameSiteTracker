@@ -2,6 +2,8 @@
   "userSecretsId": "aspnet-FamilyPortal.Web-a9159440-714e-4476-81ad-8d47121b825f",
 
   "dependencies": {
+    "GST.Data": "1.0.0-*",
+    "GST.Data.Models": "1.0.0-*",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.0.0",

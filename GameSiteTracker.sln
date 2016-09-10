@@ -13,6 +13,11 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GST.Data", "Data\GST.Data\G
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GST.Data.Models", "Data\GST.Data.Models\GST.Data.Models.xproj", "{305ABCA3-83C8-4D95-BB57-8FBB18A7C15E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{68231A48-2EA4-4558-9671-829AEF68C1CB}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

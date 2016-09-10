@@ -11,6 +11,8 @@
     using Data;
     using Models;
     using Services;
+    using GST.Data.Models;
+    using GST.Data;
 
     public class Startup
     {
@@ -37,10 +39,10 @@
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<GSTDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(o =>
+            services.AddIdentity<User, IdentityRole>(o =>
             {
                 // configure identity options
                 o.Password.RequireDigit = false;
@@ -49,7 +51,7 @@
                 o.Password.RequireNonAlphanumeric = false;
                 o.Password.RequiredLength = 6;
             })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddEntityFrameworkStores<GSTDbContext>()
             .AddDefaultTokenProviders();
 
             services.AddMvc();
