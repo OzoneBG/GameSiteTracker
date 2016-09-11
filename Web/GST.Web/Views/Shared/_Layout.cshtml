@@ -48,8 +48,8 @@
                         <li class="dropdown active">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gallery<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Pictures", "Pictures")</li>
-                                <li>@Html.ActionLink("Videos", "Videos")</li>
+                                <li>@Html.ActionLink("Pictures", "Pictures", "Home")</li>
+                                <li>@Html.ActionLink("Videos", "Videos", "Home")</li>
                             </ul>
                         </li>
                     }
@@ -58,46 +58,46 @@
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gallery<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Pictures", "Pictures")</li>
-                                <li>@Html.ActionLink("Videos", "Videos")</li>
+                                <li>@Html.ActionLink("Pictures", "Pictures", "Home")</li>
+                                <li>@Html.ActionLink("Videos", "Videos", "Home")</li>
                             </ul>
                         </li>
                     }
 
                     @if (actionName == "Progress")
                     {
-                        <li class="active">@Html.ActionLink("Progress", "Progress")</li>
+                        <li class="active">@Html.ActionLink("Progress", "Progress", "Home")</li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Progress", "Progress")</li>
+                        <li>@Html.ActionLink("Progress", "Progress", "Home")</li>
                     }
 
                     @if (actionName == "Downloads")
                     {
-                        <li class="active">@Html.ActionLink("Downloads", "Downloads")</li>
+                        <li class="active">@Html.ActionLink("Downloads", "Downloads", "Home")</li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Downloads", "Downloads")</li>
+                        <li>@Html.ActionLink("Downloads", "Downloads", "Home")</li>
                     }
 
                     @if (actionName == "About")
                     {
-                        <li class="active">@Html.ActionLink("About", "About")</li>
+                        <li class="active">@Html.ActionLink("About", "About", "Home")</li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("About", "About")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
                     }
 
                     @if (actionName == "Contact")
                     {
-                        <li class="active">@Html.ActionLink("Contact", "Contact")</li>
+                        <li class="active">@Html.ActionLink("Contact", "Contact", "Home")</li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Contact", "Contact")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     }
 
                     
