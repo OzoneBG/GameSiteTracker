@@ -13,6 +13,7 @@
     using Services;
     using GST.Data.Models;
     using GST.Data;
+    using Infrastructure;
 
     public class Startup
     {
@@ -87,9 +88,17 @@
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "PublicPages",
+                    template: "{action}",
+                    defaults: new { controller = "Home" }
+                    );
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //All custom configuration goes here:
         }
     }
 }

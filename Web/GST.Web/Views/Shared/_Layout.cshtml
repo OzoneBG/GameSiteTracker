@@ -31,16 +31,16 @@
                 <ul class="nav navbar-nav">
                     <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gallery <span class="caret"></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gallery<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Pictures</a></li>
-                            <li><a href="#">Videos</a></li>
+                            <li>@Html.ActionLink("Pictures", "Pictures")</li>
+                            <li>@Html.ActionLink("Videos", "Videos")</li>
                         </ul>
                     </li>
-                    <li><a href="#">Progress</a></li>
-                    <li><a href="#">Downloads</a></li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Progress", "Progress")</li>
+                    <li>@Html.ActionLink("Downloads", "Downloads")</li>
+                    <li>@Html.ActionLink("About", "About")</li>
+                    <li>@Html.ActionLink("Contact", "Contact")</li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -50,13 +50,13 @@
     <!-- MAIN SECTION START -->
     <div class="container" id="main-section" style="padding-top: 100px">
         <div class="row">
-            <div class="col-md-3 transparent-bg" id="side-section">
+            <div class="col-md-2 transparent-bg" id="side-section">
                 <center>
                     @await Component.InvokeAsync("ProjectInfo")
                 </center>
             </div>
             <div class="col-md-1"></div>
-            <div class="col-md-8 transparent-bg text-color" id="main-content">
+            <div class="col-md-9 transparent-bg text-color" id="main-content">
                 @RenderBody()
             </div>
         </div>

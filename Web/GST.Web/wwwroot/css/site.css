@@ -37,3 +37,7 @@
     color: white;
     background-color: rgba(0, 0, 0, 0.5);
 }
+
+#main-content {
+    min-height: 500px;
+}

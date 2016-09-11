@@ -8,9 +8,10 @@ using GST.Data;
 namespace GST.Web.Data.Migrations
 {
     [DbContext(typeof(GSTDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160911085008_Init2")]
+    partial class Init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
@@ -49,10 +50,6 @@ namespace GST.Web.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime?>("DeletedOn");
-
                     b.Property<string>("Email")
                         .HasAnnotation("MaxLength", 256);
 
@@ -61,8 +58,6 @@ namespace GST.Web.Data.Migrations
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("NormalizedEmail")
                         .HasAnnotation("MaxLength", 256);
@@ -76,16 +71,12 @@ namespace GST.Web.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<bool>("PreserveCreatedOn");
-
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
-
-                    b.Property<bool>("isDeleted");
 
                     b.HasKey("Id");
 

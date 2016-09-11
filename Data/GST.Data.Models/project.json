@@ -2,7 +2,9 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "GST.Data.Common": "1.0.0-*",
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
+    "Microsoft.EntityFrameworkCore": "1.0.0",
     "NETStandard.Library": "1.6.0"
   },
 

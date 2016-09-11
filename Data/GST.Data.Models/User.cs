@@ -1,9 +1,20 @@
 ﻿
 namespace GST.Data.Models
 {
+    using System;
+    using Common.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-    public class User : IdentityUser
+    public class User : IdentityUser, IAuditInfo, IDeletableEntity
     {
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
+
+        public bool isDeleted { get; set; }  
+
+        public DateTime? ModifiedOn { get; set; }
+
+        public bool PreserveCreatedOn { get; set; }
     }
 }
