@@ -7,13 +7,10 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-
-    using Data;
-    using Models;
     using Services;
     using GST.Data.Models;
     using GST.Data;
-    using Infrastructure;
+    using GST.Data.Common.Repository;
 
     public class Startup
     {
@@ -60,6 +57,10 @@
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
+            services.AddTransient(typeof(IDeletableEntityRepository<>), typeof(DeletableEntityRepository<>));
+            services.AddTransient<DbContext, GSTDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

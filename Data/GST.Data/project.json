@@ -1,6 +1,10 @@
 {
   "version": "1.0.0-*",
 
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=DESKTOP-CRE1PD0\\SQLEXPRESS;Database=GameSiteTracker;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
+
   "dependencies": {
     "GST.Data.Common": "1.0.0-*",
     "GST.Data.Models": "1.0.0-*",

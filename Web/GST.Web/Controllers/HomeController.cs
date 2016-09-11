@@ -1,17 +1,17 @@
 ﻿namespace GST.Web.Controllers
 {
-    using GST.Data;
+    using GST.Data.Common.Repository;
     using GST.Data.Models;
     using Microsoft.AspNetCore.Mvc;
-    using System;
+    using System.Linq;
 
     public class HomeController : Controller
     {
-        GSTDbContext context;
+        private readonly IDeletableEntityRepository<Video> videos;
 
-        public HomeController(GSTDbContext context)
+        public HomeController(IDeletableEntityRepository<Video> videos)
         {
-            this.context = context;
+            this.videos = videos;
         }
 
         public IActionResult Index()
@@ -28,7 +28,6 @@
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
 
             return View();
         }
@@ -53,8 +52,9 @@
 
         public IActionResult Videos()
         {
+            var vids = videos.All().ToList();
 
-            return View();
+            return View(vids);
         }
 
         public IActionResult Error()

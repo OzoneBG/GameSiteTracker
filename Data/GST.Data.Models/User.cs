@@ -7,11 +7,16 @@ namespace GST.Data.Models
 
     public class User : IdentityUser, IAuditInfo, IDeletableEntity
     {
+        public User()
+        {
+            this.CreatedOn = DateTime.Now;
+        }
+
         public DateTime CreatedOn { get; set; }
 
         public DateTime? DeletedOn { get; set; }
 
-        public bool isDeleted { get; set; }  
+        public bool IsDeleted { get; set; }  
 
         public DateTime? ModifiedOn { get; set; }
 
