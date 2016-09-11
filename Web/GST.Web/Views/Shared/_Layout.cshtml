@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string url = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(Context.Request);
+    string[] words = url.Split('/');
+    string actionName = words.Last();
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -25,22 +30,78 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("[Game Name]", "Index", "Home", null, new { @class = "navbar-brand"})
+                @Html.ActionLink("[Game Name]", "Index", "Home", null, new { @class = "navbar-brand" })
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gallery<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Pictures", "Pictures")</li>
-                            <li>@Html.ActionLink("Videos", "Videos")</li>
-                        </ul>
-                    </li>
-                    <li>@Html.ActionLink("Progress", "Progress")</li>
-                    <li>@Html.ActionLink("Downloads", "Downloads")</li>
-                    <li>@Html.ActionLink("About", "About")</li>
-                    <li>@Html.ActionLink("Contact", "Contact")</li>
+                    @if (actionName == "Index" || actionName == "")
+                    {
+                        <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    }
+
+                    @if (actionName == "Pictures" || actionName == "Videos")
+                    {
+                        <li class="dropdown active">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gallery<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Pictures", "Pictures")</li>
+                                <li>@Html.ActionLink("Videos", "Videos")</li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gallery<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Pictures", "Pictures")</li>
+                                <li>@Html.ActionLink("Videos", "Videos")</li>
+                            </ul>
+                        </li>
+                    }
+
+                    @if (actionName == "Progress")
+                    {
+                        <li class="active">@Html.ActionLink("Progress", "Progress")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Progress", "Progress")</li>
+                    }
+
+                    @if (actionName == "Downloads")
+                    {
+                        <li class="active">@Html.ActionLink("Downloads", "Downloads")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Downloads", "Downloads")</li>
+                    }
+
+                    @if (actionName == "About")
+                    {
+                        <li class="active">@Html.ActionLink("About", "About")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("About", "About")</li>
+                    }
+
+                    @if (actionName == "Contact")
+                    {
+                        <li class="active">@Html.ActionLink("Contact", "Contact")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Contact", "Contact")</li>
+                    }
+
+                    
+                    
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -50,21 +111,33 @@
     <!-- MAIN SECTION START -->
     <div class="container" id="main-section" style="padding-top: 100px">
         <div class="row">
-            <div class="col-md-2 transparent-bg" id="side-section">
-                <center>
-                    @await Component.InvokeAsync("ProjectInfo")
-                </center>
-            </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-9 transparent-bg text-color" id="main-content">
-                @RenderBody()
-            </div>
+            @{
+                if (actionName == "Pictures" || actionName == "Videos" || actionName == "Progress")
+                {
+                    <div class="col-md-12 transparent-bg text-color" id="main-content">
+                        @RenderBody()
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-2 transparent-bg" id="side-section">
+                        <center>
+                            @await Component.InvokeAsync("ProjectInfo")
+                        </center>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-9 transparent-bg text-color" id="main-content">
+                        @RenderBody()
+                    </div>
+                }
+            }
         </div>
     </div>
+
     <!-- MAIN SECTION END -->
     <!-- FOOTER START -->
     <div class="footer">
-        <p>[Company Name] All rights reserved. Copyrights &copy; 2016</p>
+        <p>[Company Name] All rights reserved. Copyrights &copy; @DateTime.Now.Year</p>
         <p>Website developed by Mihail Uzunov (kyojin96).</p>
     </div>
     <!-- FOOTER END -->

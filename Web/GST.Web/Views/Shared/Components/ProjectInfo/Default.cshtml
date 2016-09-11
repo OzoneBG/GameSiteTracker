@@ -5,18 +5,18 @@
     <hr />
     <ul class="list-group">
         <li class="list-group-item">Total Downloads: @Model.TotalDownloads</li>
-        <li class="list-group-item">Latest build: @Model.BuildVersion</li>
+        <li class="list-group-item">Latest version: @Model.Version</li>
         <li class="list-group-item">ETA: @Model.DaysTillArrival days</li>
-        <li class="list-group-item">Current build tasks: @Model.TotalTasksForBuild</li>
+        <li class="list-group-item">Current version tasks: @Model.TotalTasksForVersion</li>
     </ul>
     @{ 
-        float progressAsPercentage = (float)Model.TotalFinishedTasksForBuild / Model.TotalTasksForBuild;
+        float progressAsPercentage = (float)Model.TotalFinishedTasksForVersion / Model.TotalTasksForVersion;
         string progressAsValue = (progressAsPercentage * 100).ToString();
     }
     
     <div class="progress">
         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow='@progressAsValue' aria-valuemin="0" aria-valuemax="100" style="width:@progressAsValue%">
-            @Model.TotalFinishedTasksForBuild / @Model.TotalTasksForBuild
+            @Model.TotalFinishedTasksForVersion / @Model.TotalTasksForVersion
         </div>
     </div>
 </cache>

@@ -10,13 +10,13 @@
             ProjectInfoViewModel tempModel = new ProjectInfoViewModel
             {
                 TotalDownloads = 23,
-                BuildVersion = "1039b",
+                Version = "1039b",
                 DaysTillArrival = 12,
-                TotalTasksForBuild = 10,
-                TotalFinishedTasksForBuild = 5
+                TotalTasksForVersion = 10,
+                TotalFinishedTasksForVersion = 5
             };
 
-            tempModel.BuildVersion = 'v' + tempModel.BuildVersion;
+            tempModel.Version = 'v' + tempModel.Version;
 
             return View(tempModel);
         }

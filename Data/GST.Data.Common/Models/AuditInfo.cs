@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public abstract class AuditInfo : IAuditInfo
+    public abstract class AuditInfo : IAuditInfo, IDeletableEntity
     {
         public DateTime CreatedOn { get; set; }
 
@@ -11,5 +11,9 @@
         public bool PreserveCreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
+
+        public bool isDeleted { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
     }
 }

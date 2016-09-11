@@ -41,3 +41,7 @@
 #main-content {
     min-height: 500px;
 }
+
+.wrapper {
+    min-height: 450px;
+}

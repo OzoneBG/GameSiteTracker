@@ -4,13 +4,13 @@
     {
         public int TotalDownloads { get; set; }
 
-        public string BuildVersion { get; set; }
+        public string Version { get; set; }
 
         public int DaysTillArrival { get; set; }
 
-        public int TotalTasksForBuild { get; set; }
+        public int TotalTasksForVersion{ get; set; }
 
-        public int TotalFinishedTasksForBuild { get; set; }
+        public int TotalFinishedTasksForVersion{ get; set; }
 
     }
 }

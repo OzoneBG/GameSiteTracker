@@ -1,17 +1,3 @@
-﻿@{
-    ViewData["Title"] = "Contact";
-}
-<h2>@ViewData["Title"].</h2>
-<h3>@ViewData["Message"]</h3>
+﻿<h4 class="content-header">Contact information</h4>
 
-<address>
-    We live @@ localhost<br />
-    00-B0-D0-C5-B2-AA<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@ceo.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@ceo.com</a>
-</address>
+@Html.Partial("_TableTextPartial", "Contacts information")
