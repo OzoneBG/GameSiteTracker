@@ -11,6 +11,8 @@
     using GST.Data.Models;
     using GST.Data;
     using GST.Data.Common.Repository;
+    using Microsoft.AspNetCore.Identity;
+    using Infrastructure;
 
     public class Startup
     {
@@ -61,6 +63,7 @@
             services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
             services.AddTransient(typeof(IDeletableEntityRepository<>), typeof(DeletableEntityRepository<>));
             services.AddTransient<DbContext, GSTDbContext>();
+            services.AddTransient<SeedData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,6 +81,12 @@
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+            }
+
+            //Automatic database migration
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService<GSTDbContext>().Database.Migrate();
             }
 
             app.UseStaticFiles();
@@ -99,7 +108,7 @@
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //All custom configuration goes here:
+            app.ApplicationServices.GetService<SeedData>().Seed();
         }
     }
 }
