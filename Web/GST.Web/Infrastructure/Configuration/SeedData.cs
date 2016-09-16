@@ -1,9 +1,11 @@
 ﻿namespace GST.Web.Infrastructure
 {
+    using Configuration;
     using GST.Data;
     using GST.Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
 
     public class SeedData
     {
@@ -18,34 +20,47 @@
             _roleManager = roleManager;
         }
 
-        public async void Seed()
+        public void Seed()
+        {
+            CreateRolesAndSuperUser();
+        }
+
+        public async void CreateRolesAndSuperUser()
         {
             bool exists = await _roleManager.RoleExistsAsync("Admin");
-            
+
             if (!exists)
             {
                 var role = new IdentityRole();
                 role.Name = "Administrator";
                 await _roleManager.CreateAsync(role);
-            
+
                 var adminUser = new User();
-            
+
                 //TO DO:
                 //Load these from config file
-                adminUser.UserName = "Kyojin96";
-                adminUser.Email = "muzunov@hotmail.com";
-                string password = "123321";
-            
+
+                var config = new ConfigurationBuilder().AddJsonFile(@"F:\Projects\GameSiteTracker\Web\GST.Web\project.json").Build();
+                string username, email, pwd;
+
+                username = config["username"];
+                email = config["email"];
+                pwd = config["password"];
+
+                adminUser.UserName = username;
+                adminUser.Email = email;
+                string password = pwd;
+
                 var userCreationResult = await _userManager.CreateAsync(adminUser, password);
-            
+
                 if (userCreationResult.Succeeded)
                 {
                     var result = await _userManager.AddToRoleAsync(adminUser, "Administrator");
                 }
             }
-            
+
             exists = await _roleManager.RoleExistsAsync("Moderator");
-            
+
             if (!exists)
             {
                 var role = new IdentityRole();

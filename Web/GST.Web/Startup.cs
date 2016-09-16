@@ -60,6 +60,7 @@
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
+            //Custom services
             services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
             services.AddTransient(typeof(IDeletableEntityRepository<>), typeof(DeletableEntityRepository<>));
             services.AddTransient<DbContext, GSTDbContext>();
@@ -108,6 +109,7 @@
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            //Custom configuration
             app.ApplicationServices.GetService<SeedData>().Seed();
         }
     }

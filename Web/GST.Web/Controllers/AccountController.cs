@@ -12,12 +12,15 @@
     using System.Security.Claims;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using GST.Data.Models;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using System.Collections.Generic;
 
     [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
@@ -25,12 +28,14 @@
         public AccountController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
@@ -87,17 +92,29 @@
         //
         // GET: /Account/Register
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
+            var rolesAsObjects = _roleManager.Roles.ToList();
+
+            List<string> roleNames = new List<string>();
+
+            foreach (var roleAsObject in rolesAsObjects)
+            {
+                roleNames.Add(roleAsObject.Name);
+            }
+
+            ViewData["RoleNames"] = roleNames;
+                
             return View();
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator, Moderator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
@@ -108,19 +125,22 @@
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    //Add to selected role after user is created successfuly
+                    await _userManager.AddToRoleAsync(user, model.Role);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    _logger.LogInformation(3, "User created a new account with password and role.");
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
             }
-
+            
             // If we got this far, something failed, redisplay form
             return View(model);
         }

@@ -1,12 +1,14 @@
-﻿@model RegisterViewModel
+﻿@using System;
+@model RegisterViewModel
 @{
     ViewData["Title"] = "Register";
+    List<string> roles = ViewData["RoleNames"] as List<string>;
 }
 
 <h2>@ViewData["Title"].</h2>
 
 <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-    <h4>Create a new account.</h4>
+    <h4>Create new administrative user!</h4>
     <hr />
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
@@ -35,6 +37,18 @@
         <div class="col-md-10">
             <input asp-for="ConfirmPassword" class="form-control" />
             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Role" class="col-md-2 control-label" for="roleSel"></label>
+        <div class="col-md-10">
+            <select asp-for="Role" id="roleSel" style="color:black">
+                @foreach (var role in roles)
+                {
+                    <option value="@role">@role</option>
+                }
+            </select>
+            <span asp-validation-for="Role" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
