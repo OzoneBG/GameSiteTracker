@@ -11,8 +11,8 @@
     using GST.Data.Models;
     using GST.Data;
     using GST.Data.Common.Repository;
-    using Microsoft.AspNetCore.Identity;
     using Infrastructure;
+    using System.IO;
 
     public class Startup
     {
@@ -31,6 +31,8 @@
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            File.WriteAllText("envPath.txt", env.ContentRootPath);
         }
 
         public IConfigurationRoot Configuration { get; }

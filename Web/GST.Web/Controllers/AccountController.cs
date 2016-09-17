@@ -455,6 +455,14 @@
             }
         }
 
+        public IActionResult AccessDenied(string returnUrl)
+        {
+            ViewData["Message"] = "You don't have access to this area! Sorry.";
+            ViewData["ReturnUrl"] = returnUrl;
+
+            return View();
+        }
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)

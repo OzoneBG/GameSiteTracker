@@ -1,11 +1,11 @@
 ﻿namespace GST.Web.Infrastructure
 {
-    using Configuration;
     using GST.Data;
     using GST.Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
+    using System.IO;
 
     public class SeedData
     {
@@ -38,14 +38,22 @@
                 var adminUser = new User();
 
                 //TO DO:
-                //Load these from config file
+                //Get path to project.json programatically
+                //else it won't work
+                string envPath = File.ReadAllText("envPath.txt");
 
-                var config = new ConfigurationBuilder().AddJsonFile(@"F:\Projects\GameSiteTracker\Web\GST.Web\project.json").Build();
+                var config = new ConfigurationBuilder()
+                    .SetBasePath(envPath)
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
                 string username, email, pwd;
 
                 username = config["username"];
                 email = config["email"];
                 pwd = config["password"];
+
+                File.Delete("envPath.txt");
 
                 adminUser.UserName = username;
                 adminUser.Email = email;

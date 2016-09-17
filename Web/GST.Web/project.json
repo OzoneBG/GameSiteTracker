@@ -66,9 +66,5 @@
   "scripts": {
     "prepublish": [ "npm install", "bower install", "gulp clean", "gulp min" ],
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
-  },
-
-  "username": "Pesho",
-  "password": "123321",
-  "email": "muzunov@hotmail.com"
+  }
 }
