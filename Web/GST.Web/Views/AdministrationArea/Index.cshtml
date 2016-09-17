@@ -1,0 +1,17 @@
+﻿@{ 
+    Layout = "_AdminLayout";
+}
+
+@{ ViewData["Title"] = "Administration Area"; }
+
+<h3>Welcome to administration panel</h3>
+<br />
+<div class="container pull-left">
+    <ul class="list-group">
+        <li class="list-group-item">@Html.ActionLink("User Options", "ViewUserOptions")</li>
+        <li class="list-group-item">@Html.ActionLink("Pictures Options", "ViewPicturesOptions")</li>
+        <li class="list-group-item">@Html.ActionLink("Videos Options", "ViewVideosOptions")</li>
+        <li class="list-group-item">@Html.ActionLink("Static Pages Options", "ViewStaticPagesOptions")</li>
+        <li class="list-group-item"><a asp-controller="Home" asp-action="Index">&laquo; Back to main site</a></li>
+    </ul>
+</div>

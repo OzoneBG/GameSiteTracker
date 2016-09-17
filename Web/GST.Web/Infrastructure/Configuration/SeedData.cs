@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
+    using System.Collections.Generic;
     using System.IO;
 
     public class SeedData
@@ -27,7 +28,16 @@
 
         public async void CreateRolesAndSuperUser()
         {
-            bool exists = await _roleManager.RoleExistsAsync("Admin");
+            bool exists = await _roleManager.RoleExistsAsync("Moderator");
+
+            if (!exists)
+            {
+                var role = new IdentityRole();
+                role.Name = "Moderator";
+                await _roleManager.CreateAsync(role);
+            }
+
+            exists = await _roleManager.RoleExistsAsync("Administrator");
 
             if (!exists)
             {
@@ -63,17 +73,12 @@
 
                 if (userCreationResult.Succeeded)
                 {
-                    var result = await _userManager.AddToRoleAsync(adminUser, "Administrator");
+                    List<string> roles = new List<string>();
+                    roles.Add("Administrator");
+                    roles.Add("Moderator");
+
+                    var result = await _userManager.AddToRolesAsync(adminUser, roles);
                 }
-            }
-
-            exists = await _roleManager.RoleExistsAsync("Moderator");
-
-            if (!exists)
-            {
-                var role = new IdentityRole();
-                role.Name = "Moderator";
-                await _roleManager.CreateAsync(role);
             }
         }
     }

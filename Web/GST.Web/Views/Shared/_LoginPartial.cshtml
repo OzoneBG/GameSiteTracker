@@ -16,7 +16,7 @@
                     }
                     else if (User.IsInRole("Moderator"))
                     {
-                        <a asp-controller="Manage" asp-action="Index" title="Manage">Hello <span style="color:dodgerblue">@UserManager.GetUserName(User)</span>!</a>
+                         <a asp-controller="Manage" asp-action="Index" title="Manage">Hello <span style="color:dodgerblue">@UserManager.GetUserName(User)</span>!</a>
                     }
                 }
             </li>
