@@ -8,8 +8,8 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Services;
-    using GST.Data.Models;
     using GST.Data;
+    using GST.Data.Models;
     using GST.Data.Common.Repository;
     using Infrastructure;
     using System.IO;

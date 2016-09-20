@@ -38,8 +38,8 @@
         {
             return _logsRepository
                 .All()
-                .Where(x => x.Category == categoryName).
-                OrderBy(x => x.CreatedOn)
+                .Where(x => x.Category == categoryName)
+                .OrderBy(x => x.CreatedOn)
                 .AsQueryable();
         }
     }

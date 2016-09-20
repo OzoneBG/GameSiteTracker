@@ -1,5 +1,4 @@
-﻿
-namespace GST.Data.Models
+﻿namespace GST.Data.Models
 {
     using System;
     using Common.Models;
