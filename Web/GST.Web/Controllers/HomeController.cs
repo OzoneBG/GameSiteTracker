@@ -32,17 +32,37 @@
             return View();
         }
 
-        public IActionResult Videos()
+        public IActionResult Videos(int? p)
         {
-            var videosList = videosService.GetAllVideos().To<VideosViewModel>().ToList();
+            int page = 1;
+            if (p == null)
+            {
+                page = 1;
+            }
+            else if (p <= 0)
+            {
+                RedirectToAction("PaginationTest", new { p = 1 });
+            }
+            else
+            {
+                page = (int)p;
+            }
+
+            var allVideos = videosService.GetAllVideos();
+
+            ViewBag.TotalLinksToDisplay = GetLinksCountFor(allVideos.Count());
+            ViewBag.CurrentPage = page;
+
+            int maxPerPage = GlobalConstants.MaxMediaPerPage;
+            int toSkip = (page * maxPerPage) - maxPerPage;
+
+            var videosList = allVideos.Skip(toSkip).Take(maxPerPage).To<VideosViewModel>().ToList();
 
             return View(videosList);
         }
 
         public IActionResult Pictures(int? p)
         {
-            var allPictures = picturesService.GetAllPictures();
-
             int page = 1;
             if (p == null)
             {
