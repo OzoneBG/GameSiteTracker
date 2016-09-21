@@ -6,10 +6,9 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-    using Models;
-    using Models.ManageViewModels;
-    using Services;
     using GST.Data.Models;
+    using Services;
+    using ViewModels.ManageViewModels;
 
     [Authorize]
     public class ManageController : Controller

@@ -4,6 +4,8 @@
   "dependencies": {
     "GST.Data": "1.0.0-*",
     "GST.Data.Models": "1.0.0-*",
+    "GST.Data.Services": "1.0.0-*",
+    "GST.Web.Common": "1.0.0-*",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.0.0",

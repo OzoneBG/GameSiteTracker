@@ -1,45 +1,50 @@
 ﻿namespace GST.Web.Controllers
 {
-    using GST.Data.Common.Repository;
-    using GST.Data.Models;
+    using Common.Mapping;
+    using GST.Data.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
+    using ViewModels.PagesViewModel;
+    using ViewModels.PicturesViewModels;
+    using ViewModels.VideosViewModels;
 
     public class HomeController : Controller
     {
-        private readonly IDeletableEntityRepository<Video> videos;
-        private readonly IDeletableEntityRepository<Page> pages;
-        private readonly IDeletableEntityRepository<Picture> pictures;
+        private readonly IVideosService videosService;
+        private readonly IPicturesService picturesService;
+        private readonly IPagesService pagesService;
 
-        public HomeController(IDeletableEntityRepository<Video> videos, IDeletableEntityRepository<Page> pages, IDeletableEntityRepository<Picture> pictures)
+        public HomeController(IVideosService videosService, IPicturesService picturesService, IPagesService pagesService)
         {
-            this.videos = videos;
-            this.pages = pages;
-            this.pictures = pictures;
+            this.videosService = videosService;
+            this.picturesService = picturesService;
+            this.pagesService = pagesService;
         }
 
         public IActionResult Index()
         {
+            //Need news service
+
             return View();
         }
 
         public IActionResult Videos()
         {
-            var videosList = videos.All().ToList();
+            var videosList = videosService.GetAllVideos().To<VideosViewModel>().ToList();
 
             return View(videosList);
         }
 
         public IActionResult Pictures()
         {
-            var images = pictures.All().ToList();
+            var picturesList = picturesService.GetAllPictures().To<PicturesViewModel>().ToList();
 
-            return View(images);
+            return View(picturesList);
         }
 
         public IActionResult Page(string Name)
         {
-            var page = pages.All().Where(x => x.Name == Name).FirstOrDefault();
+            var page = pagesService.GetPageFor(Name).To<PageViewModel>().FirstOrDefault();
 
             return View(page);
         }

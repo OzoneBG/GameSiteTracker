@@ -1,4 +1,9 @@
-﻿@using GST.Data.Models
-@model Page
+﻿@using GST.Web.ViewModels.PagesViewModel;
+@model PageViewModel
+
+@{ 
+    ViewData["Title"] = Model.Name;
+}
+
 <h2>@Model.Name</h2>
 <p>@Model.Content</p>

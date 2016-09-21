@@ -1,4 +1,4 @@
-﻿namespace GST.Web.Models
+﻿namespace GST.Web.ViewModels.ViewComponentViewModels
 {
     public class ProjectInfoViewModel
     {

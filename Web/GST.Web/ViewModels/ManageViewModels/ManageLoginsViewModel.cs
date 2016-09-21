@@ -1,4 +1,4 @@
-﻿namespace GST.Web.Models.ManageViewModels
+﻿namespace GST.Web.ViewModels.ManageViewModels
 {
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Http.Authentication;

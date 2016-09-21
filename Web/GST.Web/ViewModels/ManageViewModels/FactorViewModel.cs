@@ -1,4 +1,4 @@
-﻿namespace GST.Web.Models.ManageViewModels
+﻿namespace GST.Web.ViewModels.ManageViewModels
 {
     public class FactorViewModel
     {

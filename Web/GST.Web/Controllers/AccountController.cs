@@ -6,14 +6,13 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
-    using Models;
     using Services;
-    using Models.AccountViewModels;
     using System.Security.Claims;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using GST.Data.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using System.Collections.Generic;
+    using ViewModels.AccountViewModels;
 
     [Authorize]
     public class AccountController : Controller

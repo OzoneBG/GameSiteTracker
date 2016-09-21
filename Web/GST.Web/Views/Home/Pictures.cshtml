@@ -1,6 +1,8 @@
-﻿@using GST.Data.Models
-@model List<Picture>
-
+﻿@using GST.Web.ViewModels.PicturesViewModels;
+@model List<PicturesViewModel>
+@{ 
+    ViewData["Title"] = "Media | Pictures";
+}
 <h4 class="content-header">List of all pictures</h4>
 <div class="container">
     @if (Model.Count == 0)

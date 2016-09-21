@@ -11,6 +11,10 @@
     using GST.Data;
     using GST.Data.Models;
     using GST.Data.Common.Repository;
+    using Common.Mapping;
+    using System.Reflection;
+    using GST.Data.Services.Interfaces;
+    using GST.Data.Services;
 
     public class Startup
     {
@@ -29,6 +33,9 @@
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            var autoMapperConfig = new AutoMapperConfig();
+            autoMapperConfig.Execute(typeof(Startup).GetTypeInfo().Assembly);
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -63,6 +70,9 @@
             services.AddTransient(typeof(IDeletableEntityRepository<>), typeof(DeletableEntityRepository<>));
             services.AddTransient<DbContext, GSTDbContext>();
             services.AddTransient<SeedData>();
+            services.AddTransient<IVideosService, VideosService>();
+            services.AddTransient<IPicturesService, PicturesService>();
+            services.AddTransient<IPagesService, PagesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

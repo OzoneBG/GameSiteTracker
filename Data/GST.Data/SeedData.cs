@@ -1,7 +1,6 @@
 ﻿namespace GST.Data
 {
-    using GST.Data;
-    using GST.Data.Models;
+    using Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;

@@ -1,12 +1,9 @@
-﻿namespace GST.Web.Models.ManageViewModels
+﻿namespace GST.Web.ViewModels.ManageViewModels
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class VerifyPhoneNumberViewModel
+    public class AddPhoneNumberViewModel
     {
-        [Required]
-        public string Code { get; set; }
-
         [Required]
         [Phone]
         [Display(Name = "Phone number")]

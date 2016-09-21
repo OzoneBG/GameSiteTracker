@@ -1,4 +1,4 @@
-﻿namespace GST.Web.Models.AccountViewModels
+﻿namespace GST.Web.ViewModels.AccountViewModels
 {
     using System.ComponentModel.DataAnnotations;
 

@@ -1,12 +1,16 @@
-﻿namespace GST.Web.Models.ManageViewModels
+﻿namespace GST.Web.ViewModels.AccountViewModels
 {
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    public class ConfigureTwoFactorViewModel
+    public class SendCodeViewModel
     {
         public string SelectedProvider { get; set; }
 
         public ICollection<SelectListItem> Providers { get; set; }
+
+        public string ReturnUrl { get; set; }
+
+        public bool RememberMe { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace GST.Web.ViewComponents
 {
     using Microsoft.AspNetCore.Mvc;
-    using Models;
+    using ViewModels.ViewComponentViewModels;
 
     public class ProjectInfoViewComponent : ViewComponent
     {
