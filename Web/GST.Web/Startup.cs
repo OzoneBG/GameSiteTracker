@@ -31,8 +31,6 @@
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
-
-            File.WriteAllText("envPath.txt", env.ContentRootPath);
         }
 
         public IConfigurationRoot Configuration { get; }

@@ -50,7 +50,7 @@
                 //TO DO:
                 //Get path to project.json programatically
                 //else it won't work
-                string envPath = File.ReadAllText("envPath.txt");
+                string envPath = Directory.GetCurrentDirectory();
 
                 var config = new ConfigurationBuilder()
                     .SetBasePath(envPath)
@@ -62,8 +62,6 @@
                 username = config["username"];
                 email = config["email"];
                 pwd = config["password"];
-
-                File.Delete("envPath.txt");
 
                 adminUser.UserName = username;
                 adminUser.Email = email;
