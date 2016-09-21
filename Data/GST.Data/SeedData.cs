@@ -1,4 +1,4 @@
-﻿namespace GST.Web.Infrastructure
+﻿namespace GST.Data
 {
     using GST.Data;
     using GST.Data.Models;

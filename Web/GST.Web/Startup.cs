@@ -11,8 +11,6 @@
     using GST.Data;
     using GST.Data.Models;
     using GST.Data.Common.Repository;
-    using Infrastructure;
-    using System.IO;
 
     public class Startup
     {
