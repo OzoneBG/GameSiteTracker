@@ -47,7 +47,7 @@
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     }
 
-                    @if (actionName == "Pictures" || actionName == "Videos")
+                    @if (actionName.Contains("Pictures") || actionName.Contains("Videos"))
                     {
                         <li class="dropdown active">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Media<span class="caret"></span></a>
@@ -78,7 +78,7 @@
     <div class="container" id="main-section" style="padding-top: 100px">
         <div class="row">
             @{
-                if (actionName == "Pictures" || actionName == "Videos" || actionName == "Progress")
+                if (actionName.Contains("Pictures") || actionName.Contains("Videos") || actionName.Contains("Progress"))
                 {
                     <div class="col-md-12 transparent-bg text-color" id="main-content">
                         @RenderBody()

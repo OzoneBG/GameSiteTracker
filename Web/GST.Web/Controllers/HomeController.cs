@@ -1,12 +1,16 @@
 ﻿namespace GST.Web.Controllers
 {
+    using Common;
     using Common.Mapping;
+    using GST.Data.Models;
     using GST.Data.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
     using System.Linq;
     using ViewModels.PagesViewModel;
     using ViewModels.PicturesViewModels;
     using ViewModels.VideosViewModels;
+    using System;
 
     public class HomeController : Controller
     {
@@ -35,11 +39,35 @@
             return View(videosList);
         }
 
-        public IActionResult Pictures()
+        public IActionResult Pictures(int? p)
         {
-            var picturesList = picturesService.GetAllPictures().To<PicturesViewModel>().ToList();
+            var allPictures = picturesService.GetAllPictures();
 
-            return View(picturesList);
+            int page = 1;
+            if (p == null)
+            {
+                page = 1;
+            }
+            else if (p <= 0)
+            {
+                RedirectToAction("PaginationTest", new { p = 1 });
+            }
+            else
+            {
+                page = (int)p;
+            }
+
+            var pics = picturesService.GetAllPictures();
+
+            ViewBag.TotalLinksToDisplay = GetLinksCountFor(pics.Count());
+            ViewBag.CurrentPage = page;
+
+            int maxPerPage = GlobalConstants.MaxMediaPerPage;
+            int toSkip = (page * maxPerPage) - maxPerPage;
+
+            var picsList = pics.Skip(toSkip).Take(maxPerPage).To<PicturesViewModel>().ToList();
+
+            return View(picsList);
         }
 
         public IActionResult Page(string Name)
@@ -48,6 +76,14 @@
 
             return View(page);
         }
+
+
+        #region Helpers
+        private static int GetLinksCountFor(int totalItems)
+        {
+            return (int)Math.Ceiling(totalItems / (float)GlobalConstants.MaxMediaPerPage);
+        }
+        #endregion
 
         public IActionResult Error()
         {
