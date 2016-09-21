@@ -1,0 +1,25 @@
+﻿@using GST.Data.Models
+@model IQueryable<Page>
+@{
+    string url = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(Context.Request);
+    string[] words = url.Split('/');
+    string actionName = words.Last();
+    if (actionName == "")
+    {
+        actionName = "Index";
+    }
+}
+
+@foreach (var page in Model)
+{
+    @if (actionName == page.Name)
+    {
+        <li class="active">@Html.ActionLink(page.Name, "Page", "Home", new { Name = page.Name}, null)</li>
+    }
+    else
+    {
+        <li>@Html.ActionLink(page.Name, "Page", "Home", new { Name = page.Name }, null)</li>
+    }
+}
+
+

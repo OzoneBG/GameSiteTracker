@@ -1,15 +1,15 @@
-﻿namespace GST.Data.Models.Base
+﻿namespace GST.Data.Models
 {
     using Common.Models;
     using System.ComponentModel.DataAnnotations;
 
-    public abstract class Media : AuditInfo
+    public class Page : AuditInfo
     {
         [Key]
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public int Views { get; set; }
+        public string Content { get; set; }
     }
 }

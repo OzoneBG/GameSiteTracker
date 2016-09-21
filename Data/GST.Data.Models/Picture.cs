@@ -4,6 +4,6 @@
 
     public class Picture : Media
     {
-       
+       public string UrlToImage { get; set; }
     }
 }

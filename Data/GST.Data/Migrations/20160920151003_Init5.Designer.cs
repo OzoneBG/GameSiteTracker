@@ -8,9 +8,10 @@ using GST.Data;
 namespace GST.Web.Data.Migrations
 {
     [DbContext(typeof(GSTDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160920151003_Init5")]
+    partial class Init5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -48,6 +49,8 @@ namespace GST.Web.Data.Migrations
                     b.Property<DateTime>("CreatedOn");
 
                     b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<string>("Description");
 
                     b.Property<bool>("IsDeleted");
 
@@ -135,6 +138,8 @@ namespace GST.Web.Data.Migrations
                     b.Property<DateTime>("CreatedOn");
 
                     b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<string>("Description");
 
                     b.Property<bool>("IsDeleted");
 

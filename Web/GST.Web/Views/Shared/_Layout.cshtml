@@ -2,6 +2,10 @@
     string url = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(Context.Request);
     string[] words = url.Split('/');
     string actionName = words.Last();
+    if (actionName == "")
+    {
+        actionName = "Index";
+    }
 }
 <!DOCTYPE html>
 <html>
@@ -63,45 +67,7 @@
                             </ul>
                         </li>
                     }
-
-                    @if (actionName == "Progress")
-                    {
-                        <li class="active">@Html.ActionLink("Progress", "Progress", "Home")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Progress", "Progress", "Home")</li>
-                    }
-
-                    @if (actionName == "Downloads")
-                    {
-                        <li class="active">@Html.ActionLink("Downloads", "Downloads", "Home")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Downloads", "Downloads", "Home")</li>
-                    }
-
-                    @if (actionName == "About")
-                    {
-                        <li class="active">@Html.ActionLink("About", "About", "Home")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                    }
-
-                    @if (actionName == "Contact")
-                    {
-                        <li class="active">@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    }
-
-                    
-                    
+                    @await Component.InvokeAsync("Pages")
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

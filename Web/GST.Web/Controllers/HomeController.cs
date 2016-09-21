@@ -8,10 +8,14 @@
     public class HomeController : Controller
     {
         private readonly IDeletableEntityRepository<Video> videos;
+        private readonly IDeletableEntityRepository<Page> pages;
+        private readonly IDeletableEntityRepository<Picture> pictures;
 
-        public HomeController(IDeletableEntityRepository<Video> videos)
+        public HomeController(IDeletableEntityRepository<Video> videos, IDeletableEntityRepository<Page> pages, IDeletableEntityRepository<Picture> pictures)
         {
             this.videos = videos;
+            this.pages = pages;
+            this.pictures = pictures;
         }
 
         public IActionResult Index()
@@ -19,42 +23,25 @@
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Videos()
         {
-            ViewData["Message"] = "This is some lorem ipsum information about the game.";
+            var videosList = videos.All().ToList();
 
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-
-            return View();
-        }
-
-        public IActionResult Progress()
-        {
-
-            return View();
-        }
-
-        public IActionResult Downloads()
-        {
-
-            return View();
+            return View(videosList);
         }
 
         public IActionResult Pictures()
         {
+            var images = pictures.All().ToList();
 
-            return View();
+            return View(images);
         }
 
-        public IActionResult Videos()
+        public IActionResult Page(string Name)
         {
-            var vids = videos.All().ToList();
+            var page = pages.All().Where(x => x.Name == Name).FirstOrDefault();
 
-            return View(vids);
+            return View(page);
         }
 
         public IActionResult Error()

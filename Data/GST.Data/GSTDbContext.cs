@@ -29,11 +29,16 @@
 
             builder.Entity<Video>()
                 .HasIndex(b => b.IsDeleted);
+
+            builder.Entity<Page>()
+                .HasIndex(b => b.IsDeleted);
         }
 
         public DbSet<Picture> Pictures { get; set; }
 
         public DbSet<Video> Videos { get; set; }
+
+        public DbSet<Page> Pages { get; set; }
 
         public override int SaveChanges()
         {
