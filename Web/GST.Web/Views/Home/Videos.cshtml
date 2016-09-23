@@ -38,40 +38,6 @@
         }
     }
 </div>
-<nav aria-label="Page navigation">
-    <ul class="pagination">
-        @if (ViewBag.CurrentPage > 1)
-        {
-            <li class="page-item">
-                <a class="page-link" asp-action="Videos" asp-controller="Home" asp-route-p="@(ViewBag.CurrentPage-1)" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                </a>
-            </li>
-        }
-        @{
-            for (int i = 1; i <= ViewBag.TotalLinksToDisplay; i++)
-            {
-                if (ViewBag.CurrentPage == i)
-                {
-                    <li class="page-item active">@Html.ActionLink(@i.ToString(), "Videos", "Home", new { p = @i }, new { @class = "page-link" })</li>
-                }
-                else
-                {
-                    <li class="page-item">@Html.ActionLink(@i.ToString(), "Videos", "Home", new { p = @i }, new { @class = "page-link" })</li>
-                }
-            }
-        }
-        @if (ViewBag.CurrentPage < ViewBag.TotalLinksToDisplay)
-        {
-            <li class="page-item">
-                <a class="page-link" asp-action="Videos" asp-controller="Home" asp-route-p="@(ViewBag.CurrentPage+1)" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
-        }
-    </ul>
-</nav>
+@await Component.InvokeAsync("PageNavigation", new { currentPage = ViewBag.CurrentPage, totalLinksToDisplay = ViewBag.TotalLinksToDisplay, redirectActionName = "Videos" })
 
 <!--<iframe width="315" height="315" src="https://www.youtube.com/embed/6N2wY-YCvVM" frameborder="0" allowfullscreen></iframe>-->
