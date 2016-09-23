@@ -25,6 +25,14 @@
             this.pagesService = pagesService;
         }
 
+        private int MaxPerPage
+        {
+            get
+            {
+                return GlobalConstants.MaxMediaPerPage;
+            }
+        }
+
         public IActionResult Index()
         {
             //Need news service
@@ -34,58 +42,32 @@
 
         public IActionResult Videos(int? p)
         {
-            int page = 1;
-            if (p == null)
-            {
-                page = 1;
-            }
-            else if (p <= 0)
-            {
-                RedirectToAction("PaginationTest", new { p = 1 });
-            }
-            else
-            {
-                page = (int)p;
-            }
+            int page = PageChecks(p, "Videos");
 
             var allVideos = videosService.GetAllVideos();
 
             ViewBag.TotalLinksToDisplay = GetLinksCountFor(allVideos.Count());
             ViewBag.CurrentPage = page;
 
-            int maxPerPage = GlobalConstants.MaxMediaPerPage;
-            int toSkip = (page * maxPerPage) - maxPerPage;
+            int toSkip = GetPaginationDataToSkip(page);
 
-            var videosList = allVideos.Skip(toSkip).Take(maxPerPage).To<VideosViewModel>().ToList();
+            var videosList = allVideos.Skip(toSkip).Take(MaxPerPage).To<VideosViewModel>().ToList();
 
             return View(videosList);
         }
 
         public IActionResult Pictures(int? p)
         {
-            int page = 1;
-            if (p == null)
-            {
-                page = 1;
-            }
-            else if (p <= 0)
-            {
-                RedirectToAction("PaginationTest", new { p = 1 });
-            }
-            else
-            {
-                page = (int)p;
-            }
+            int page = PageChecks(p, "Pictures");
 
-            var pics = picturesService.GetAllPictures();
+            var allPics = picturesService.GetAllPictures();
 
-            ViewBag.TotalLinksToDisplay = GetLinksCountFor(pics.Count());
+            ViewBag.TotalLinksToDisplay = GetLinksCountFor(allPics.Count());
             ViewBag.CurrentPage = page;
 
-            int maxPerPage = GlobalConstants.MaxMediaPerPage;
-            int toSkip = (page * maxPerPage) - maxPerPage;
+            int toSkip = GetPaginationDataToSkip(page);
 
-            var picsList = pics.Skip(toSkip).Take(maxPerPage).To<PicturesViewModel>().ToList();
+            var picsList = allPics.Skip(toSkip).Take(MaxPerPage).To<PicturesViewModel>().ToList();
 
             return View(picsList);
         }
@@ -99,9 +81,31 @@
 
 
         #region Helpers
-        private static int GetLinksCountFor(int totalItems)
+        private int GetLinksCountFor(int totalItems)
         {
             return (int)Math.Ceiling(totalItems / (float)GlobalConstants.MaxMediaPerPage);
+        }
+
+        private int PageChecks(int? page, string RedirectActionName)
+        {
+            if (page == null)
+            {
+                return 1;
+            }
+            else if (page <= 0)
+            {
+                RedirectToAction(RedirectActionName, new { p = 1 });
+                return 0;
+            }
+            else
+            {
+                return (int)page;
+            }
+        }
+        
+        private int GetPaginationDataToSkip(int page)
+        {
+            return (page * MaxPerPage) - MaxPerPage;
         }
         #endregion
 
