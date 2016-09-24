@@ -92,12 +92,6 @@
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            //Automatic database migration
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                serviceScope.ServiceProvider.GetService<GSTDbContext>().Database.Migrate();
-            }
-
             app.UseStaticFiles();
 
             app.UseIdentity();
@@ -119,6 +113,7 @@
 
             //Custom configuration
             app.ApplicationServices.GetService<SeedData>().Seed();
+            app.ApplicationServices.GetService<DbContext>().Database.Migrate();
         }
     }
 }

@@ -8,6 +8,7 @@
   "dependencies": {
     "GST.Data.Common": "1.0.0-*",
     "GST.Data.Models": "1.0.0-*",
+    "GST.Data.Services": "1.0.0-*",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1",
     "Microsoft.Extensions.Configuration": "1.0.0",
     "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",

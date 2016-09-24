@@ -2,15 +2,15 @@
 {
     using Common;
     using Common.Mapping;
-    using GST.Data.Models;
     using GST.Data.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
     using System.Linq;
     using ViewModels.PagesViewModel;
     using ViewModels.PicturesViewModels;
     using ViewModels.VideosViewModels;
     using System;
+    using GST.Data.Models;
+    using GST.Data.Common.Repository;
 
     public class HomeController : Controller
     {
@@ -18,11 +18,14 @@
         private readonly IPicturesService picturesService;
         private readonly IPagesService pagesService;
 
-        public HomeController(IVideosService videosService, IPicturesService picturesService, IPagesService pagesService)
+        private readonly IDeletableEntityRepository<Post> _posts;
+
+        public HomeController(IVideosService videosService, IPicturesService picturesService, IPagesService pagesService, IDeletableEntityRepository<Post> posts)
         {
             this.videosService = videosService;
             this.picturesService = picturesService;
             this.pagesService = pagesService;
+            _posts = posts;
         }
 
         private int MaxPerPage
@@ -35,9 +38,38 @@
 
         public IActionResult Index()
         {
-            //Need news service
+            return View();
+        }
+
+        public IActionResult Pesho()
+        {
+            //Need Posts service
+            Post post1 = new Post()
+            {
+                Title = "Development Diary #1",
+                Content = "1"
+            };
+            
+            Post post2 = new Post()
+            {
+                Title = "Development Diary #2",
+                Content = "2"
+            };
+            
+            Post post3 = new Post()
+            {
+                Title = "Development Diary #3",
+                Content = "3"
+            };
+            
+            _posts.Add(post1);
+            _posts.Add(post2);
+            _posts.Add(post3);
+            
+            _posts.SaveChanges();
 
             return View();
+            
         }
 
         public IActionResult Videos(int? p)

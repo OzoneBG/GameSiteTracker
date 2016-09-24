@@ -17,21 +17,8 @@
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
 
-            builder.Entity<User>()
-                .HasIndex(b => b.IsDeleted);
-
-            builder.Entity<Picture>()
-                .HasIndex(b => b.IsDeleted);
-
-            builder.Entity<Video>()
-                .HasIndex(b => b.IsDeleted);
-
-            builder.Entity<Page>()
-                .HasIndex(b => b.IsDeleted);
+            SetupIndexesForTables(builder);
         }
 
         public DbSet<Picture> Pictures { get; set; }
@@ -39,6 +26,8 @@
         public DbSet<Video> Videos { get; set; }
 
         public DbSet<Page> Pages { get; set; }
+
+        public DbSet<Post> Posts { get; set; }
 
         public override int SaveChanges()
         {
@@ -83,6 +72,24 @@
                 entity.IsDeleted= true;
                 entry.State = EntityState.Modified;
             }
+        }
+
+        private void SetupIndexesForTables(ModelBuilder builder)
+        {
+            builder.Entity<User>()
+                .HasIndex(b => b.IsDeleted);
+
+            builder.Entity<Picture>()
+                .HasIndex(b => b.IsDeleted);
+
+            builder.Entity<Video>()
+                .HasIndex(b => b.IsDeleted);
+
+            builder.Entity<Page>()
+                .HasIndex(b => b.IsDeleted);
+
+            builder.Entity<Post>()
+                .HasIndex(b => b.IsDeleted);
         }
     }
 }

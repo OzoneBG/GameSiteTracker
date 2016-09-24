@@ -5,17 +5,41 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using GST.Data;
 
-namespace GST.Web.Data.Migrations
+namespace GST.Data.Migrations
 {
     [DbContext(typeof(GSTDbContext))]
-    [Migration("20160911150118_Init3")]
-    partial class Init3
+    [Migration("20160924111344_Posts")]
+    partial class Posts
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
+                .HasAnnotation("ProductVersion", "1.0.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("GST.Data.Models.Page", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Pages");
+                });
 
             modelBuilder.Entity("GST.Data.Models.Picture", b =>
                 {
@@ -26,13 +50,13 @@ namespace GST.Web.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<string>("Description");
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Name");
+
+                    b.Property<string>("UrlToImage");
 
                     b.Property<int>("Views");
 
@@ -41,6 +65,34 @@ namespace GST.Web.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Pictures");
+                });
+
+            modelBuilder.Entity("GST.Data.Models.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorId");
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("GST.Data.Models.User", b =>
@@ -112,8 +164,6 @@ namespace GST.Web.Data.Migrations
                     b.Property<DateTime>("CreatedOn");
 
                     b.Property<DateTime?>("DeletedOn");
-
-                    b.Property<string>("Description");
 
                     b.Property<bool>("IsDeleted");
 
@@ -237,6 +287,13 @@ namespace GST.Web.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("GST.Data.Models.Post", b =>
+                {
+                    b.HasOne("GST.Data.Models.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
