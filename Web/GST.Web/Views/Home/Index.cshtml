@@ -1,63 +1,24 @@
-﻿@{ 
+﻿@using GST.Web.ViewModels.PostsViewModels
+@model List<PostsViewModel>
+@{ 
     ViewData["Title"] = "News";
 }
 
 <h4 class="content-header">Latest news</h4>
 <hr />
-<div class="new">
-    <table class="table table-bordered">
-        <tr><td><span class="new-title">Development Diary #1</span> <span class="new-post-info">posted on [date] by [user]</span></td></tr>
-        <tr>
-            <td>
-                <p>Welcome to the website! Here we will post any news regarding the project we are working on!</p>
-                <p>Here is some placeholder content:</p>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vel pulvinar felis. Praesent in finibus risus. Quisque sed sapien eget libero eleifend interdum quis a nibh. Quisque vitae orci enim. Fusce congue massa at nisl tempus commodo. Maecenas porttitor mi vel pharetra elementum. Vivamus dapibus faucibus odio, id dignissim mauris consequat vitae. Vivamus vitae augue vitae massa consectetur suscipit. Proin at feugiat elit, et semper nisl. Aenean ultricies viverra molestie. Nullam porta dolor non dignissim aliquam. Proin mattis metus diam. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                </p>
-            </td>
-        </tr>
-    </table>
-</div>
 
-<div class="new">
-    <table class="table table-bordered">
-        <th><span class="new-title">Development Diary #2</span> <span class="new-post-info">posted on [date] by [user]</span></th>
-        <tr>
-            <td>
-                <p>
-                    Maecenas consectetur in arcu consectetur aliquet. Nullam id mi justo. Aliquam erat volutpat. Proin egestas mauris ligula, vel bibendum felis malesuada sed. Duis vitae erat magna. Curabitur feugiat odio ac blandit porttitor. Nam vel justo velit.
-                </p>
-            </td>
-        </tr>
-    </table>
-</div>
+@foreach (var post in Model)
+{
+    <div class="new">
+        <table class="table table-bordered">
+            <tr><td><span class="new-title">@post.Title</span> <span class="new-post-info">posted on @post.CreatedOn by @post.Author.UserName</span></td></tr>
+            <tr>
+                <td>
+                    @post.Content
+                </td>
+            </tr>
+        </table>
+    </div>
+}
 
-<div class="new">
-    <table class="table table-bordered">
-        <th><span class="new-title">Development Diary #3</span> <span class="new-post-info">posted on [date] by [user]</span></th>
-        <tr>
-            <td>
-                <p>
-                    Phasellus cursus tellus id orci ornare feugiat. Vestibulum tincidunt vitae sapien ut venenatis. Suspendisse feugiat in nulla sit amet accumsan. Suspendisse id commodo lectus, ut imperdiet nulla. Praesent gravida nisl vel accumsan vestibulum. Quisque dignissim metus tempor tortor congue, eget fermentum arcu volutpat. Integer pretium massa sagittis urna bibendum, vitae vestibulum ipsum malesuada. Sed a mollis quam. In aliquet lacinia purus ac rhoncus. Nullam maximus mattis lectus, et molestie risus. Proin vehicula dignissim nisi id venenatis. Praesent pharetra, enim sit amet condimentum ultricies, magna lectus volutpat felis, vitae egestas justo orci at ligula. Quisque erat neque, convallis at massa id, suscipit imperdiet urna.
-                </p>
-            </td>
-        </tr>
-    </table>
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+@await Component.InvokeAsync("PageNavigation", new { currentPage = ViewBag.CurrentPage, totalLinksToDisplay = ViewBag.TotalLinksToDisplay, redirectActionName = "Index" })

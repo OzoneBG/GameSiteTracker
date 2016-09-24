@@ -2,33 +2,34 @@
 {
     using Common;
     using Common.Mapping;
-    using GST.Data.Services.Interfaces;
+    using Data.Services.Interfaces;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using ViewModels.PagesViewModel;
     using ViewModels.PicturesViewModels;
     using ViewModels.VideosViewModels;
     using System;
-    using GST.Data.Models;
-    using GST.Data.Common.Repository;
+    using ViewModels.PostsViewModels;
 
     public class HomeController : Controller
     {
         private readonly IVideosService videosService;
         private readonly IPicturesService picturesService;
         private readonly IPagesService pagesService;
+        private readonly IPostsService postsService;
 
-        private readonly IDeletableEntityRepository<Post> _posts;
-
-        public HomeController(IVideosService videosService, IPicturesService picturesService, IPagesService pagesService, IDeletableEntityRepository<Post> posts)
+        public HomeController(IVideosService videosService, 
+                            IPicturesService picturesService, 
+                            IPagesService pagesService, 
+                            IPostsService postsService)
         {
             this.videosService = videosService;
             this.picturesService = picturesService;
             this.pagesService = pagesService;
-            _posts = posts;
+            this.postsService = postsService;
         }
 
-        private int MaxPerPage
+        private int MaxMediaPerPage
         {
             get
             {
@@ -36,40 +37,28 @@
             }
         }
 
-        public IActionResult Index()
+        private int MaxPostsPerPage
         {
-            return View();
+            get
+            {
+                return GlobalConstants.MaxPostsPerPage;
+            }
         }
 
-        public IActionResult Pesho()
+        public IActionResult Index(int? p)
         {
-            //Need Posts service
-            Post post1 = new Post()
-            {
-                Title = "Development Diary #1",
-                Content = "1"
-            };
-            
-            Post post2 = new Post()
-            {
-                Title = "Development Diary #2",
-                Content = "2"
-            };
-            
-            Post post3 = new Post()
-            {
-                Title = "Development Diary #3",
-                Content = "3"
-            };
-            
-            _posts.Add(post1);
-            _posts.Add(post2);
-            _posts.Add(post3);
-            
-            _posts.SaveChanges();
+            int page = PageChecks(p, "Index");
 
-            return View();
-            
+            var allPosts = postsService.GetAllPosts();
+
+            ViewBag.TotalLinksToDisplay = GetLinksCountFor(allPosts.Count());
+            ViewBag.CurrentPage = page;
+
+            int toSkip = GetPaginationDataToSkip(page);
+
+            var videosList = allPosts.Skip(toSkip).Take(MaxMediaPerPage).To<PostsViewModel>().ToList();
+
+            return View(videosList);
         }
 
         public IActionResult Videos(int? p)
@@ -83,7 +72,7 @@
 
             int toSkip = GetPaginationDataToSkip(page);
 
-            var videosList = allVideos.Skip(toSkip).Take(MaxPerPage).To<VideosViewModel>().ToList();
+            var videosList = allVideos.Skip(toSkip).Take(MaxMediaPerPage).To<VideosViewModel>().ToList();
 
             return View(videosList);
         }
@@ -99,7 +88,7 @@
 
             int toSkip = GetPaginationDataToSkip(page);
 
-            var picsList = allPics.Skip(toSkip).Take(MaxPerPage).To<PicturesViewModel>().ToList();
+            var picsList = allPics.Skip(toSkip).Take(MaxMediaPerPage).To<PicturesViewModel>().ToList();
 
             return View(picsList);
         }
@@ -137,7 +126,7 @@
         
         private int GetPaginationDataToSkip(int page)
         {
-            return (page * MaxPerPage) - MaxPerPage;
+            return (page * MaxMediaPerPage) - MaxMediaPerPage;
         }
         #endregion
 

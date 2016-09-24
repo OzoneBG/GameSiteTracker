@@ -8,13 +8,13 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Services;
-    using GST.Data;
-    using GST.Data.Models;
-    using GST.Data.Common.Repository;
+    using Data;
+    using Data.Models;
+    using Data.Common.Repository;
     using Common.Mapping;
     using System.Reflection;
-    using GST.Data.Services.Interfaces;
-    using GST.Data.Services;
+    using Data.Services.Interfaces;
+    using Data.Services;
 
     public class Startup
     {
@@ -73,6 +73,7 @@
             services.AddTransient<IVideosService, VideosService>();
             services.AddTransient<IPicturesService, PicturesService>();
             services.AddTransient<IPagesService, PagesService>();
+            services.AddTransient<IPostsService, PostsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
