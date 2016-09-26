@@ -1,24 +1,24 @@
 ﻿namespace GST.Web.ViewComponents
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using Newtonsoft.Json;
+    using System;
+    using System.IO;
     using ViewModels.ViewComponentViewModels;
 
     public class ProjectInfoViewComponent : ViewComponent
     {
         public IViewComponentResult Invoke()
         {
-            ProjectInfoViewModel tempModel = new ProjectInfoViewModel
-            {
-                TotalDownloads = 23,
-                Version = "1039b",
-                DaysTillArrival = 12,
-                TotalTasksForVersion = 10,
-                TotalFinishedTasksForVersion = 5
-            };
 
-            tempModel.Version = 'v' + tempModel.Version;
+            string path = Directory.GetCurrentDirectory() + "\\progressdata.json";
 
-            return View(tempModel);
+            string json = File.ReadAllText(path);
+
+            var model = JsonConvert.DeserializeObject<ProjectInfoViewModel>(json);
+
+            return View(model);
         }
     }
 }

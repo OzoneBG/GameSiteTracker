@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GST.Web.Controllers
+﻿namespace GST.Web.Controllers
 {
+    using Data.Services.Interfaces;
+
     public abstract class AdministratorController : ModeratorController
     {
-
+        public AdministratorController(IPagesService pageService) : base(pageService)
+        {
+        }
     }
 }

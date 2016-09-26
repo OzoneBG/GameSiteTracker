@@ -1,23 +1,23 @@
 ﻿@using GST.Web.ViewModels.ViewComponentViewModels
 @model ProjectInfoViewModel
 
-<cache expires-after="@TimeSpan.FromMinutes(15)">
+<cache expires-after="@TimeSpan.FromSeconds(30)">
     <h4 class="content-header">Stats</h4>
     <hr />
     <ul class="list-group">
         <li class="list-group-item">Total Downloads: @Model.TotalDownloads</li>
-        <li class="list-group-item">Latest version: @Model.Version</li>
-        <li class="list-group-item">ETA: @Model.DaysTillArrival days</li>
-        <li class="list-group-item">Current version tasks: @Model.TotalTasksForVersion</li>
+        <li class="list-group-item">Latest version: @Model.LatestBuild</li>
+        <li class="list-group-item">ETA: @Model.ETA days</li>
+        <li class="list-group-item">Current version tasks: @Model.CurrentVersionTasks</li>
     </ul>
     @{ 
-        float progressAsPercentage = (float)Model.TotalFinishedTasksForVersion / Model.TotalTasksForVersion;
+        float progressAsPercentage = (float)Model.CompletedTasks / Model.CurrentVersionTasks;
         string progressAsValue = (progressAsPercentage * 100).ToString();
     }
     
     <div class="progress">
         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow='@progressAsValue' aria-valuemin="0" aria-valuemax="100" style="width:@progressAsValue%">
-            @Model.TotalFinishedTasksForVersion / @Model.TotalTasksForVersion
+            @Model.CompletedTasks
         </div>
     </div>
 </cache>

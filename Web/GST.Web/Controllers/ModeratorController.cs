@@ -1,40 +1,38 @@
 ﻿namespace GST.Web.Controllers
 {
+    using Common.Mapping;
+    using Data.Services.Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System.Linq;
+    using ViewModels.PagesViewModel;
 
     public abstract class ModeratorController : Controller
     {
-        [Authorize(Roles = "Adminstrator, Moderator")]
+        protected readonly IPagesService pageService;
+
+        public ModeratorController(IPagesService pageService)
+        {
+            this.pageService = pageService;
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
         public IActionResult Index()
         {
-            //Display here ze menu list hehe
-
             return View();
         }
 
-        [Authorize(Roles = "Adminstrator, Moderator")]
-        public IActionResult ViewUserOptions()
+        [Authorize(Roles = "Administrator, Moderator")]
+        public IActionResult ViewStaticPages(string pageName)
         {
-            return View();
+            var pageData = pageService.GetPageFor(pageName).To<AdministrationPageViewModel>().FirstOrDefault();
+
+            var pageNames = pageService.GetAllPageNames();
+
+            pageData.PageNames = pageNames;
+
+            return View(pageData);
         }
 
-        [Authorize(Roles = "Adminstrator, Moderator")]
-        public IActionResult ViewPicturesOptions()
-        {
-            return View();
-        }
-
-        [Authorize(Roles = "Adminstrator, Moderator")]
-        public IActionResult ViewVideosOptions()
-        {
-            return View();
-        }
-
-        [Authorize(Roles = "Adminstrator, Moderator")]
-        public IActionResult ViewStaticPagesOptions()
-        {
-            return View();
-        }
     }
 }

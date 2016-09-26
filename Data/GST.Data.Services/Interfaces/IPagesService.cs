@@ -8,6 +8,8 @@
     {
         IQueryable<Page> GetPageFor(string Name);
 
+        List<string> GetAllPageNames();
+
         bool ShouldCreateDefaultPages();
 
         void AddDefaultPages(List<Page> pageList);

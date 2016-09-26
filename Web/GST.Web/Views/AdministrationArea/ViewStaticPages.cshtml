@@ -1,0 +1,46 @@
+﻿@using GST.Web.ViewModels.PagesViewModel
+@using System.Text
+@model AdministrationPageViewModel
+
+<h2>Static Pages</h2>
+
+@section Scripts {
+    <script>tinymce.init({ selector:'textarea' });</script>
+}
+
+<div class="container">
+    <ul class="nav nav-tabs">
+        @foreach (var name in Model.PageNames)
+        {
+            if (Model.Name == name)
+            {
+                <li class="active"><a asp-action="ViewStaticPages" asp-route-pageName="@name" asp-controller="AdministrationArea">@name</a></li>
+            }
+            else
+            {
+                <li><a asp-action="ViewStaticPages" asp-route-pageName="@name" asp-controller="AdministrationArea">@name</a></li>
+            }
+        }
+    </ul>
+    <br />
+    <div class="container">
+       <h2>@Model.Name</h2>
+       <hr />
+       <div class="container">
+           <textarea rows="20" cols="120">@Model.Content</textarea>
+       </div>
+       @{ 
+           StringBuilder sb = new StringBuilder();
+           sb.Append(string.Format("Created on {0}, ", Model.CreatedOn.ToString()));
+           if (Model.ModifiedOn != null)
+           {
+               sb.Append(string.Format("modified on {0} ", Model.ModifiedOn.ToString()));
+           }
+           sb.Append(string.Format("posted by {0}", "[user]"));
+
+           string finalMessage = sb.ToString();
+       }
+        <br />
+        <em><strong>@finalMessage</strong></em>
+    </div>
+</div>

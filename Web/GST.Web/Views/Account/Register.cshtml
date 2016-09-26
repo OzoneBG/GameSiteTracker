@@ -1,12 +1,13 @@
-﻿@using System;
+﻿@{ 
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
 @model RegisterViewModel
 @{
     ViewData["Title"] = "Register";
     List<string> roles = ViewData["RoleNames"] as List<string>;
 }
 
-<h2>@ViewData["Title"].</h2>
-
+<div class="container pull-left" style="width: 400px">
 <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
     <h4>Create new administrative user!</h4>
     <hr />
@@ -57,6 +58,7 @@
         </div>
     </div>
 </form>
+</div>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

@@ -17,7 +17,9 @@
 
         public IQueryable<Page> GetPageFor(string Name)
         {
-            return pages.All().Where(x => x.Name == Name);
+            var page = pages.All().Where(x => x.Name == Name);
+
+            return page;
         }
 
         public bool ShouldCreateDefaultPages()
@@ -47,6 +49,13 @@
             }
 
             pages.SaveChanges();
+        }
+
+        public List<string> GetAllPageNames()
+        {
+            var allPageNames = pages.All().Select(x => x.Name).ToList();
+
+            return allPageNames;
         }
     }
 }
