@@ -13,5 +13,7 @@
         bool ShouldCreateDefaultPages();
 
         void AddDefaultPages(List<Page> pageList);
+
+        void EditStaticPage(string name, string newContent);
     }
 }

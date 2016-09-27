@@ -5,6 +5,7 @@
     using Models;
     using Common.Repository;
     using System.Collections.Generic;
+    using System;
 
     public class PagesService : IPagesService
     {
@@ -56,6 +57,15 @@
             var allPageNames = pages.All().Select(x => x.Name).ToList();
 
             return allPageNames;
+        }
+
+        public void EditStaticPage(string name, string newContent)
+        {
+            var page = GetPageFor(name).FirstOrDefault();
+
+            page.Content = newContent;
+
+            pages.SaveChanges();
         }
     }
 }
