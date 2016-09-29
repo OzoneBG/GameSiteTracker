@@ -59,12 +59,38 @@
             return allPageNames;
         }
 
-        public void EditStaticPage(string name, string newContent)
+        public void EditStaticPage(string oldName, string newName, string newContent)
         {
-            var page = GetPageFor(name).FirstOrDefault();
+            var page = GetPageFor(oldName).FirstOrDefault();
 
+            page.Name = newName;
             page.Content = newContent;
 
+            pages.SaveChanges();
+        }
+
+        public string GetFirstPageName()
+        {
+            string pageName = pages.All().Select(x => x.Name).FirstOrDefault();
+
+            return pageName;
+        }
+
+        public void DeletePage(int id)
+        {
+            pages.Delete(id);
+            pages.SaveChanges();
+        }
+
+        public void CreateNewPage(string name, string content)
+        {
+            Page page = new Page
+            {
+                Name = name,
+                Content = content
+            };
+
+            pages.Add(page);
             pages.SaveChanges();
         }
     }

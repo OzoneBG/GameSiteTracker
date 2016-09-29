@@ -2,10 +2,6 @@
 @using System.Text
 @model AdministrationPageViewModel
 
-@{ 
-    string message = (string)ViewData["message"];
-}
-
 <a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
 <h2>Static Page Editor</h2>
 
@@ -26,23 +22,23 @@
                 <li><a asp-action="EditStaticPages" asp-route-pageName="@name" asp-controller="AdministrationArea">@name</a></li>
             }
         }
+        <li><a asp-action="NewPage"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></li>
     </ul>
     <br />
 
     <div class="container">
-        @if (!string.IsNullOrWhiteSpace(message) || !string.IsNullOrEmpty(message))
-        {
-            <p class="text-danger">@message</p>
-        }
         <form asp-controller="AdministrationArea" asp-action="EditStaticPages" method="post">
             <div class="container">
-                <h2>@Model.Name</h2>
                 <button type="submit" class="btn-primary btn-lg">Save</button>
+                <a href="DeletePage?pageId=@Model.Id" class="pull-right">Delete</a>
+                <br /><br />
+                @Html.LabelFor(m => m.Name)
+                @Html.EditorFor(m => m.Name)
             </div>
             <hr />
             <div class="container">
                 <textarea name="Content" rows="20" cols="120">@Model.Content</textarea>
-                <input type="hidden" name="PageName" value="@Model.Name" />
+                <input type="hidden" name="OldName" value="@Model.Name" />
             </div>
             @{
                 StringBuilder sb = new StringBuilder();

@@ -6,7 +6,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
-    using System.Text;
     using ViewModels.PagesViewModel;
 
     public abstract class ModeratorController : Controller
@@ -28,6 +27,11 @@
         [HttpGet]
         public IActionResult EditStaticPages(string pageName)
         {
+            if (string.IsNullOrWhiteSpace(pageName))
+            {
+                pageName = pageService.GetFirstPageName();
+            }
+
             var pageData = PopulateAdminPageViewModel(pageName);
 
             return View(pageData);
@@ -40,13 +44,13 @@
         {
             if (ModelState.IsValid)
             {
-                pageService.EditStaticPage(model.PageName, model.Content);
+                pageService.EditStaticPage(model.OldName, model.Name, model.Content);
 
-                return RedirectToAction("EditStaticPages", new { pageName = model.PageName });
+                return RedirectToAction("EditStaticPages", new { pageName = model.Name });
             }
             else
             {
-                var pageData = PopulateAdminPageViewModel(model.PageName);
+                var pageData = PopulateAdminPageViewModel(model.Name);
 
                 pageData.Content = "";
 
@@ -54,6 +58,38 @@
 
                 return View(pageData);
             }
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        [HttpGet]
+        public IActionResult NewPage()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult NewPage(NewPageInputModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                pageService.CreateNewPage(model.Name, model.Content);
+
+                return RedirectToAction("EditStaticPages", new { pageName = model.Name });
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        public IActionResult DeletePage(int pageId)
+        {
+
+            pageService.DeletePage(pageId);
+
+            return RedirectToAction("EditStaticPages");
         }
 
         #region Helpers

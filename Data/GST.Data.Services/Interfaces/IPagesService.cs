@@ -14,6 +14,12 @@
 
         void AddDefaultPages(List<Page> pageList);
 
-        void EditStaticPage(string name, string newContent);
+        void EditStaticPage(string oldName, string newName, string newContent);
+
+        string GetFirstPageName();
+
+        void DeletePage(int id);
+
+        void CreateNewPage(string name, string content);
     }
 }
