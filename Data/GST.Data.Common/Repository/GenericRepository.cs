@@ -27,10 +27,10 @@
         {
             return this.DbSet.AsQueryable();
         }
-
+        //ne si li tril do sa ot bazata :D
         public virtual T GetById(int id)
         {
-            return this.DbSet.Find(id);
+            return this.DbSet.Find(Context, id);
         }
 
         public virtual void Add(T entity)
@@ -74,6 +74,7 @@
 
         public virtual void Delete(int id)
         {
+            //ana altqga, nali tva e ideqta na Find metoda bonakens glei
             var entity = this.GetById(id);
 
             if (entity != null)

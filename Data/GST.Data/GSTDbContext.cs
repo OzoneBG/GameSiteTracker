@@ -3,15 +3,26 @@
     using Common.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
     using Models;
     using System;
     using System.Linq;
 
     public class GSTDbContext : IdentityDbContext<User>
     {
+        private DbContextOptions options;
+
         public GSTDbContext(DbContextOptions<GSTDbContext> options)
             : base(options)
         {
+            this.options = options;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            var sqlServerOptions = options.GetExtension<SqlServerOptionsExtension>();
+            optionsBuilder.UseSqlServer(sqlServerOptions.ConnectionString, b => b.MigrationsAssembly("GST.Web"));
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

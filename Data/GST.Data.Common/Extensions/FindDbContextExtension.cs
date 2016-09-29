@@ -8,10 +8,8 @@
 
     public static class FindDbContextExtension
     {
-        public static TEntity Find<TEntity>(this DbSet<TEntity> set, params object[] keyValues) where TEntity : class
+        public static TEntity Find<TEntity>(this DbSet<TEntity> set, DbContext context, params object[] keyValues) where TEntity : class
         {
-            var context = ((IInfrastructure<IServiceProvider>)set).GetService<DbContext>();
-
             var entityType = context.Model.FindEntityType(typeof(TEntity));
             var key = entityType.FindPrimaryKey();
 
@@ -20,7 +18,8 @@
             var i = 0;
             foreach (var property in key.Properties)
             {
-                entries = entries.Where(e => e.Property(property.Name).CurrentValue == keyValues[i]);
+                var keyValue = keyValues[i];
+                entries = entries.Where(e => e.Property(property.Name).CurrentValue == keyValue);
                 i++;
             }
 
