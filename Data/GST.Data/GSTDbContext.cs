@@ -22,7 +22,7 @@
         {
             base.OnConfiguring(optionsBuilder);
             var sqlServerOptions = options.GetExtension<SqlServerOptionsExtension>();
-            optionsBuilder.UseSqlServer(sqlServerOptions.ConnectionString, b => b.MigrationsAssembly("GST.Web"));
+            optionsBuilder.UseSqlServer(sqlServerOptions.ConnectionString, b => b.MigrationsAssembly("GST.Data"));
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

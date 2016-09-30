@@ -1,9 +1,11 @@
 ﻿namespace GST.Web.Controllers
 {
     using Common.Mapping;
+    using Data.Models;
     using Data.Services.Interfaces;
     using InputModels.PagesInputModels;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using ViewModels.AccountViewModels;
@@ -13,11 +15,13 @@
     {
         protected readonly IPagesService pageService;
         protected readonly IUsersService usersService;
+        protected readonly UserManager<User> userManager;
 
-        public ModeratorController(IPagesService pageService, IUsersService usersService)
+        public ModeratorController(IPagesService pageService, IUsersService usersService, UserManager<User> userManager)
         {
             this.pageService = pageService;
             this.usersService = usersService;
+            this.userManager = userManager;
         }
 
         [Authorize(Roles = "Administrator, Moderator")]

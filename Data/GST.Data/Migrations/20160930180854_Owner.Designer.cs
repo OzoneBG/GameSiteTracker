@@ -8,9 +8,10 @@ using GST.Data;
 namespace GST.Data.Migrations
 {
     [DbContext(typeof(GSTDbContext))]
-    partial class GSTDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160930180854_Owner")]
+    partial class Owner
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
