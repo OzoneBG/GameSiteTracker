@@ -9,7 +9,7 @@
     using Services;
     using System.Security.Claims;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using GST.Data.Models;
+    using Data.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using System.Collections.Generic;
     using ViewModels.AccountViewModels;
@@ -97,15 +97,6 @@
             ViewData["ReturnUrl"] = returnUrl;
 
             var rolesAsObjects = _roleManager.Roles.ToList();
-
-            List<string> roleNames = new List<string>();
-
-            foreach (var roleAsObject in rolesAsObjects)
-            {
-                roleNames.Add(roleAsObject.Name);
-            }
-
-            ViewData["RoleNames"] = roleNames;
                 
             return View();
         }

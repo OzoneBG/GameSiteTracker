@@ -65,6 +65,7 @@
 
             page.Name = newName;
             page.Content = newContent;
+            page.ModifiedOn = DateTime.Now;
 
             pages.SaveChanges();
         }
@@ -78,7 +79,11 @@
 
         public void DeletePage(int id)
         {
-            pages.Delete(id);
+            var page = pages.All().Where(x => x.Id == id).FirstOrDefault();
+
+            page.DeletedOn = DateTime.Now;
+            page.IsDeleted = true;
+
             pages.SaveChanges();
         }
 

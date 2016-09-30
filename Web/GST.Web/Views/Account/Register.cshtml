@@ -1,11 +1,25 @@
 ﻿@{ 
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+@using System.Linq;
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 @model RegisterViewModel
+
+@inject RoleManager<IdentityRole> roleManager;
 @{
     ViewData["Title"] = "Register";
-    List<string> roles = ViewData["RoleNames"] as List<string>;
+    var roles = roleManager.Roles.ToList();
+
+    List<string> roleNames = new List<string>();
+
+    foreach (var role in roles)
+    {
+        roleNames.Add(role.Name);
+    }
 }
+
+<a asp-controller="AdministrationArea" asp-action="AllUsers">&laquo; Back</a>
+<br />
 
 <div class="container pull-left" style="width: 400px">
 <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
@@ -44,9 +58,9 @@
         <label asp-for="Role" class="col-md-2 control-label" for="roleSel"></label>
         <div class="col-md-10">
             <select asp-for="Role" id="roleSel" style="color:black">
-                @foreach (var role in roles)
+                @foreach (var roleName in roleNames)
                 {
-                    <option value="@role">@role</option>
+                    <option value="@roleName">@roleName</option>
                 }
             </select>
             <span asp-validation-for="Role" class="text-danger"></span>

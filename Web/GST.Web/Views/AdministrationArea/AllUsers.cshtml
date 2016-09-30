@@ -1,0 +1,29 @@
+﻿@using GST.Web.ViewModels.AccountViewModels
+@model List<ViewUsersViewModel>
+@{
+    int count = 0;
+}
+
+<a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
+<h2>List of all users</h2>
+
+<a asp-action="Register" asp-controller="Account"><span class="glyphicon glyphicon-plus" aria-hidden="true">Add User</span></a>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-1">Id</div>
+        <div class="col-md-2">Username</div>
+        <div class="col-md-1">Delete</div>
+    </div>
+    @{ 
+        foreach (var user in Model)
+        {
+            count++;
+            <div class="row">
+                <div class="col-md-1"><p>@count</p></div>
+                <div class="col-md-2"><p>@user.UserName</p></div>
+                <div class="col-md-1"><a asp-action="RemoveUser" asp-controller="AdministrationArea" asp-route-guid="@user.Id"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a></div>
+            </div>
+        }
+    }
+</div>

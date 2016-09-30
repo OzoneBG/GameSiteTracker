@@ -6,21 +6,40 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
+    using ViewModels.AccountViewModels;
     using ViewModels.PagesViewModel;
 
     public abstract class ModeratorController : Controller
     {
         protected readonly IPagesService pageService;
+        protected readonly IUsersService usersService;
 
-        public ModeratorController(IPagesService pageService)
+        public ModeratorController(IPagesService pageService, IUsersService usersService)
         {
             this.pageService = pageService;
+            this.usersService = usersService;
         }
 
         [Authorize(Roles = "Administrator, Moderator")]
         public IActionResult Index()
         {
             return View();
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        public IActionResult AllUsers()
+        {
+            var allUsers = usersService.GetAllUsers().To<ViewUsersViewModel>().ToList();
+
+            return View(allUsers);
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        public IActionResult RemoveUser(string guid)
+        {
+            usersService.DeleteUser(guid);
+
+            return RedirectToAction("AllUsers");
         }
 
         [Authorize(Roles = "Administrator, Moderator")]
@@ -86,7 +105,6 @@
 
         public IActionResult DeletePage(int pageId)
         {
-
             pageService.DeletePage(pageId);
 
             return RedirectToAction("EditStaticPages");

@@ -4,7 +4,7 @@
 
     public class AdministrationAreaController : AdministratorController
     {
-        public AdministrationAreaController(IPagesService pageService) : base(pageService)
+        public AdministrationAreaController(IPagesService pageService, IUsersService usersService) : base(pageService, usersService)
         {
         }
     }

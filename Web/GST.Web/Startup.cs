@@ -70,11 +70,15 @@
             services.AddTransient(typeof(IDeletableEntityRepository<>), typeof(DeletableEntityRepository<>));
             services.AddTransient<DbContext, GSTDbContext>();
             services.AddTransient<SeedData>();
+
+            //Data services injection
             services.AddTransient<IVideosService, VideosService>();
             services.AddTransient<IPicturesService, PicturesService>();
             services.AddTransient<IPagesService, PagesService>();
             services.AddTransient<IPostsService, PostsService>();
+            services.AddTransient<IUsersService, UsersService>();
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

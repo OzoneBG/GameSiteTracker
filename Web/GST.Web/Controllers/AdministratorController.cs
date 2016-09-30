@@ -4,7 +4,7 @@
 
     public abstract class AdministratorController : ModeratorController
     {
-        public AdministratorController(IPagesService pageService) : base(pageService)
+        public AdministratorController(IPagesService pageService, IUsersService usersService) : base(pageService, usersService)
         {
         }
     }
