@@ -5,7 +5,14 @@
 <h2>New Static Page</h2>
 
 @section Scripts {
-    <script>tinymce.init({ selector:'textarea' });</script>
+    <script>
+        tinymce.init({
+            selector: "textarea",
+            plugins: "link image code",
+            relative_urls: false,
+            remove_script_host: false
+        });
+    </script>
 }
 
 <div class="container">

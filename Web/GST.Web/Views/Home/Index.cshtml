@@ -1,4 +1,5 @@
-﻿@using GST.Web.ViewModels.PostsViewModels
+﻿@using System.Globalization
+@using GST.Web.ViewModels.PostsViewModels
 @model List<PostsViewModel>
 @{ 
     ViewData["Title"] = "News";
@@ -11,10 +12,13 @@
 {
     <div class="new">
         <table class="table table-bordered">
-            <tr><td><span class="new-title">@post.Title</span> <span class="new-post-info">posted on @post.CreatedOn by @post.Author.UserName</span></td></tr>
+            @{ 
+                var ci = new CultureInfo("en-US");
+            }
+            <tr><td><span class="new-title">@post.Title</span> <span class="new-post-info">posted on @post.CreatedOn.ToString("d", ci) by @post.Author.UserName</span></td></tr>
             <tr>
                 <td>
-                    @post.Content
+                    @Html.Raw(post.Content)
                 </td>
             </tr>
         </table>
