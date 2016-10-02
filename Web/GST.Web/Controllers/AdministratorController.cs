@@ -6,7 +6,7 @@
 
     public abstract class AdministratorController : ModeratorController
     {
-        public AdministratorController(IPagesService pageService, IUsersService usersService, UserManager<User> userManger) : base(pageService, usersService, userManger)
+        public AdministratorController(IPagesService pageService, IUsersService usersService, ILogService logsService, UserManager<User> userManger) : base(pageService, usersService, logsService, userManger)
         {
         }
     }

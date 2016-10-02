@@ -13,6 +13,8 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using System.Collections.Generic;
     using ViewModels.AccountViewModels;
+    using Data.Services.Interfaces;
+    using Common.Extensions;
 
     [Authorize]
     public class AccountController : Controller
@@ -23,6 +25,7 @@
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly ILogService logsService;
 
         public AccountController(
             UserManager<User> userManager,
@@ -30,7 +33,8 @@
             RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            ILogService logsService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -38,6 +42,7 @@
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            this.logsService = logsService;
         }
 
         //
@@ -118,13 +123,14 @@
                     //Add to selected role after user is created successfuly
                     await _userManager.AddToRoleAsync(user, model.Role);
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    //currently logged user
+                    var userName = _userManager.FindByIdAsync(User.GetUserId()).Result.UserName;
+
+                    //Log
+                    //Created new user with id: {0} and username: {1}
+                    string content = string.Format("{0} Created new user with username: {1}", userName, model.Username);
+                    logsService.AddNewLog("Create", content);
+
                     _logger.LogInformation(3, "User created a new account with password and role.");
                     return RedirectToLocal(returnUrl);
                 }

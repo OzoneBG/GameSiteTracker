@@ -11,7 +11,7 @@
     using System;
     using ViewModels.PostsViewModels;
 
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IVideosService videosService;
         private readonly IPicturesService picturesService;
@@ -27,22 +27,6 @@
             this.picturesService = picturesService;
             this.pagesService = pagesService;
             this.postsService = postsService;
-        }
-
-        private int MaxMediaPerPage
-        {
-            get
-            {
-                return GlobalConstants.MaxMediaPerPage;
-            }
-        }
-
-        private int MaxPostsPerPage
-        {
-            get
-            {
-                return GlobalConstants.MaxPostsPerPage;
-            }
         }
 
         public IActionResult Index(int? p)
@@ -99,36 +83,6 @@
 
             return View(page);
         }
-
-
-        #region Helpers
-        private int GetLinksCountFor(int totalItems)
-        {
-            return (int)Math.Ceiling(totalItems / (float)GlobalConstants.MaxMediaPerPage);
-        }
-
-        private int PageChecks(int? page, string RedirectActionName)
-        {
-            if (page == null)
-            {
-                return 1;
-            }
-            else if (page <= 0)
-            {
-                RedirectToAction(RedirectActionName, new { p = 1 });
-                return 0;
-            }
-            else
-            {
-                return (int)page;
-            }
-        }
-        
-        private int GetPaginationDataToSkip(int page)
-        {
-            return (page * MaxMediaPerPage) - MaxMediaPerPage;
-        }
-        #endregion
 
         public IActionResult Error()
         {

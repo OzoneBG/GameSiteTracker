@@ -1,0 +1,39 @@
+﻿@using GST.Web.ViewModels.LogsViewModels
+@model List<LogsViewModel>
+@{
+    int count = 0;
+}
+
+<a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
+<h2>Logs</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-1">
+            Id
+        </div>
+        <div class="col-md-2">
+            Category
+        </div>
+        <div class="col-md-7">
+            Content
+        </div>
+        <div class="col-md-2">
+            Created On
+        </div>
+    </div>
+    @{
+        foreach (var log in Model)
+        {
+            count++;
+            <div class="row">
+                <div class="col-md-1">@count</div>
+                <div class="col-md-2">@log.Category</div>
+                <div class="col-md-7">@log.Content</div>
+                <div class="col-md-2">@log.CreatedOn.ToString("d")</div>
+            </div>
+        }
+    }
+</div>
+
+@await Component.InvokeAsync("PageNavigation", new { currentPage = ViewBag.CurrentPage, totalLinksToDisplay = ViewBag.TotalLinksToDisplay, redirectActionName = "ListLogs", controllerName = "AdministrationArea" })

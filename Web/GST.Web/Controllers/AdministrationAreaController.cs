@@ -6,7 +6,7 @@
 
     public class AdministrationAreaController : AdministratorController
     {
-        public AdministrationAreaController(IPagesService pageService, IUsersService usersService, UserManager<User> userManger) : base(pageService, usersService, userManger)
+        public AdministrationAreaController(IPagesService pageService, IUsersService usersService, ILogService logsService, UserManager<User> userManger) : base(pageService, usersService, logsService, userManger)
         {
         }
     }

@@ -8,11 +8,11 @@
 
     public class LogService : ILogService
     {
-        public readonly DeletableEntityRepository<Log> _logsRepository;
-
-        public LogService(DeletableEntityRepository<Log> logsRepository)
+        public readonly IDeletableEntityRepository<Log> logs;
+    
+        public LogService(IDeletableEntityRepository<Log> logs)
         {
-            _logsRepository = logsRepository; 
+            this.logs = logs;
         }
 
         public Log AddNewLog(string category, string content)
@@ -24,19 +24,21 @@
                 Content = content
             };
 
-            _logsRepository.Add(log);
+            logs.Add(log);
+
+            logs.SaveChanges();
 
             return log;
         }
 
         public IQueryable<Log> GetAllLogs()
         {
-            return _logsRepository.All().AsQueryable();
+            return logs.All().OrderByDescending(x => x.CreatedOn).AsQueryable();
         }
 
         public IQueryable<Log> GetAllLogsForCategory(string categoryName)
         {
-            return _logsRepository
+            return logs
                 .All()
                 .Where(x => x.Category == categoryName)
                 .OrderBy(x => x.CreatedOn)

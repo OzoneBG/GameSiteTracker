@@ -87,16 +87,22 @@
             pages.SaveChanges();
         }
 
-        public void CreateNewPage(string name, string content)
+        public void CreateNewPage(string name, string content, User author)
         {
             Page page = new Page
             {
                 Name = name,
-                Content = content
+                Content = content,
+                AuthorId = author.Id
             };
 
             pages.Add(page);
             pages.SaveChanges();
+        }
+
+        public string GetPageNameById(int pageId)
+        {
+            return pages.All().Where(x => x.Id == pageId).FirstOrDefault().Name;
         }
     }
 }

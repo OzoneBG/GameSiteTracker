@@ -77,6 +77,7 @@
             services.AddTransient<IPagesService, PagesService>();
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<ILogService, LogService>();
         }
 
 

@@ -20,6 +20,7 @@
 
         void DeletePage(int id);
 
-        void CreateNewPage(string name, string content);
+        void CreateNewPage(string name, string content, User author);
+        string GetPageNameById(int pageId);
     }
 }

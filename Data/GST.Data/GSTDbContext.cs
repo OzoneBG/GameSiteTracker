@@ -40,6 +40,8 @@
 
         public DbSet<Post> Posts { get; set; }
 
+        public DbSet<Log> Logs { get; set; }
+
         public override int SaveChanges()
         {
             this.ApplyAuditInfoRules();

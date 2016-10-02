@@ -2,6 +2,7 @@
     int currentPage = (int)ViewData["currentPage"];
     int totalLinksToDisplay = (int)ViewData["totalLinksToDisplay"];
     string redirectActionName = (string)ViewData["redirectActionName"];
+    string controllerName = (string)ViewData["controllerName"];
 }
 
 <nav aria-label="Page navigation">
@@ -9,7 +10,7 @@
         @if (currentPage > 1)
         {
             <li class="page-item">
-                <a class="page-link" asp-action="@redirectActionName" asp-controller="Home" asp-route-p="@(currentPage-1)" aria-label="Previous">
+                <a class="page-link" asp-action="@redirectActionName" asp-controller="@controllerName" asp-route-p="@(currentPage-1)" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
                 </a>
@@ -20,18 +21,18 @@
             {
                 if (currentPage == i)
                 {
-                    <li class="page-item active">@Html.ActionLink(@i.ToString(), redirectActionName, "Home", new { p = @i }, new { @class = "page-link" })</li>
+                    <li class="page-item active">@Html.ActionLink(@i.ToString(), redirectActionName, controllerName, new { p = @i }, new { @class = "page-link" })</li>
                 }
                 else
                 {
-                    <li class="page-item">@Html.ActionLink(@i.ToString(), redirectActionName, "Home", new { p = @i }, new { @class = "page-link" })</li>
+                    <li class="page-item">@Html.ActionLink(@i.ToString(), redirectActionName, controllerName, new { p = @i }, new { @class = "page-link" })</li>
                 }
             }
         }
         @if (currentPage < totalLinksToDisplay)
         {
             <li class="page-item">
-                <a class="page-link" asp-action="@redirectActionName" asp-controller="Home" asp-route-p="@(currentPage+1)" aria-label="Next">
+                <a class="page-link" asp-action="@redirectActionName" asp-controller="@controllerName" asp-route-p="@(currentPage+1)" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Next</span>
                 </a>
