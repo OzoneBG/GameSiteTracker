@@ -1,9 +1,13 @@
 ﻿@using GST.Web.ViewModels.VideosViewModels;
-@model List<VideosViewModel>
+@model List<AdministrationVideosViewModel>
 @{
     ViewData["Title"] = "Media | Videos";
 }
-<h4 class="content-header">List of all videos</h4>
+
+<a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
+<h2>@ViewData["Title"]</h2>
+
+<a asp-controller="AdministrationArea" asp-action="CreateVideo"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add new Video</a>
 
 <div class="container">
     @if (Model.Count == 0)
@@ -20,7 +24,8 @@
             <div class="col-md-4">
                 <div class="container">
                     <iframe width="315" height="315" src="@video.VideoUrl" frameborder="0"></iframe>
-                </div>
+                    <a asp-action="DeleteVideo" asp-controller="AdministrationArea" asp-route-id="@video.Id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+</div>
             </div>
             count++;
             totalSize--;
@@ -38,4 +43,4 @@
         }
     }
 </div>
-@await Component.InvokeAsync("PageNavigation", new { currentPage = ViewBag.CurrentPage, totalLinksToDisplay = ViewBag.TotalLinksToDisplay, redirectActionName = "Videos" })
+@await Component.InvokeAsync("PageNavigation", new { currentPage = ViewBag.CurrentPage, totalLinksToDisplay = ViewBag.TotalLinksToDisplay, redirectActionName = "ViewVideos", controllerName = "AdministrationArea" })

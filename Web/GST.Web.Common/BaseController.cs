@@ -21,6 +21,14 @@
             }
         }
 
+        protected int MaxLogsPerPage
+        {
+            get
+            {
+                return GlobalConstants.MaxLogsPerPage;
+            }
+        }
+
         #region Helpers
         protected int GetLinksCountFor(int totalItems)
         {

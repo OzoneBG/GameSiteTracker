@@ -1,11 +1,12 @@
 ﻿@using GST.Web.ViewModels.LogsViewModels
 @model List<LogsViewModel>
 @{
+    ViewData["Title"] = "Logs";
     int count = 0;
 }
 
 <a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
-<h2>Logs</h2>
+<h2>@ViewData["Title"]</h2>
 
 <div class="container">
     <div class="row">

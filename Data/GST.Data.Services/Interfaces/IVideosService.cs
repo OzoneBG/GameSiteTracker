@@ -6,5 +6,8 @@
     public interface IVideosService
     {
         IQueryable<Video> GetAllVideos();
+        void AddNewVideo(string name, string videoUrl);
+        void DeleteVideo(int id);
+        string GetVideoName(int id);
     }
 }

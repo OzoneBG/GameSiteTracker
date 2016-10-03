@@ -1,6 +1,6 @@
 ﻿namespace GST.Web.ViewModels.VideosViewModels
 {
-    using GST.Data.Models;
+    using Data.Models;
     using Common.Mapping;
 
     public class VideosViewModel : IMapFrom<Video>

@@ -2,8 +2,12 @@
 @using System.Text
 @model AdministrationPageViewModel
 
+@{ 
+    ViewData["Title"] = "Static Page Editor";
+}
+
 <a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
-<h2>Static Page Editor</h2>
+<h2>@ViewData["Title"]</h2>
 
 @section Scripts {
     <script>

@@ -13,7 +13,8 @@
     using System.Threading.Tasks;
     using ViewModels.AccountViewModels;
     using ViewModels.PagesViewModel;
-    using ViewModels.LogsViewModels;
+    using ViewModels.VideosViewModels;
+    using InputModels.VideosInputModels;
 
     public abstract class ModeratorController : BaseController
     {
@@ -21,34 +22,76 @@
         protected readonly IPagesService pageService;
         protected readonly IUsersService usersService;
         protected readonly ILogService logsService;
+        protected readonly IVideosService videosService;
 
         //Managers
         protected readonly UserManager<User> userManager;
 
-        public ModeratorController(IPagesService pageService, IUsersService usersService, ILogService logsService, UserManager<User> userManager)
+        public ModeratorController(IPagesService pageService, IUsersService usersService, ILogService logsService, IVideosService videosService, UserManager<User> userManager)
         {
             this.pageService = pageService;
             this.usersService = usersService;
             this.logsService = logsService;
+            this.videosService = videosService;
 
             this.userManager = userManager;
             
         }
 
-        public IActionResult ListLogs(int? p)
+        public IActionResult DeleteVideo(int id)
         {
-            int page = PageChecks(p, "ListLogs");
+            string userName = GetCurrentUserName(User.GetUserId());
+            string videoName = videosService.GetVideoName(id);
 
-            var allLogs = logsService.GetAllLogs();
+            string content = string.Format("{0} requested deletion of video: {1}", userName, videoName);
+            logsService.AddNewLog("Delete", content);
 
-            ViewBag.TotalLinksToDisplay = GetLinksCountFor(allLogs.Count());
+            videosService.DeleteVideo(id);
+
+            return RedirectToAction("ViewVideos");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Administrator, Moderator")]
+        public IActionResult CreateVideo()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Moderator")]
+        public IActionResult CreateVideo(NewVideoInputModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                videosService.AddNewVideo(model.Name, model.VideoUrl);
+
+                string content = string.Format("{0} added video: {1}", GetCurrentUserName(User.GetUserId()), model.Name);
+                logsService.AddNewLog("Create", content);
+
+                return RedirectToAction("ViewVideos");
+            }
+            else
+            {
+                return View();
+            } 
+        }
+
+        public IActionResult ViewVideos(int? p)
+        {
+            int page = PageChecks(p, "Videos");
+
+            var allVideos = videosService.GetAllVideos();
+
+            ViewBag.TotalLinksToDisplay = GetLinksCountFor(allVideos.Count());
             ViewBag.CurrentPage = page;
 
             int toSkip = GetPaginationDataToSkip(page);
 
-            var logsList = allLogs.Skip(toSkip).Take(MaxMediaPerPage).To<LogsViewModel>().ToList();
+            var videosList = allVideos.Skip(toSkip).Take(MaxMediaPerPage).To<AdministrationVideosViewModel>().ToList();
 
-            return View(logsList);
+            return View(videosList);
         }
 
         [Authorize(Roles = "Administrator, Moderator")]
@@ -63,17 +106,6 @@
             var allUsers = usersService.GetAllUsers().To<ViewUsersViewModel>().ToList();
 
             return View(allUsers);
-        }
-
-        [Authorize(Roles = "Administrator, Moderator")]
-        public IActionResult RemoveUser(string guid)
-        {
-            usersService.DeleteUser(guid);
-
-            string content = string.Format("{0} requested deletion of user with id: {1} and username: {2}.", GetCurrentUserName(User.GetUserId()), guid, GetCurrentUserName(guid));
-            logsService.AddNewLog("Delete", content);
-
-            return RedirectToAction("AllUsers");
         }
 
         [Authorize(Roles = "Administrator, Moderator")]
@@ -160,7 +192,7 @@
         }
 
         #region Helpers
-        private AdministrationPageViewModel PopulateAdminPageViewModel(string pageName)
+        protected AdministrationPageViewModel PopulateAdminPageViewModel(string pageName)
         {
             var pageData = pageService.GetPageFor(pageName).To<AdministrationPageViewModel>().FirstOrDefault();
 
@@ -171,9 +203,9 @@
             return pageData;
         }
 
-        private Task<User> GetCurrentUser(string id) => userManager.FindByIdAsync(id);
+        protected Task<User> GetCurrentUser(string id) => userManager.FindByIdAsync(id);
 
-        private string GetCurrentUserName(string id)
+        protected string GetCurrentUserName(string id)
         {
             return GetCurrentUser(id).Result.UserName;
         }

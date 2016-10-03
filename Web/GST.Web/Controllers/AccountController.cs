@@ -70,6 +70,7 @@
                 var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    logsService.AddNewLog("Auth", string.Format("{0} logged in.", model.Username));
                     _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
@@ -148,6 +149,11 @@
         public async Task<IActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();
+
+            //currently logged user
+            var userName = _userManager.FindByIdAsync(User.GetUserId()).Result.UserName;
+
+            logsService.AddNewLog("Auth", string.Format("{0} logged out.", userName));
             _logger.LogInformation(4, "User logged out.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }

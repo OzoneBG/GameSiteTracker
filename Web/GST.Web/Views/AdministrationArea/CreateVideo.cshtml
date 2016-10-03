@@ -1,0 +1,23 @@
+﻿@using GST.Web.InputModels.VideosInputModels
+@model NewVideoInputModel
+@{ 
+    ViewData["Title"] = "Create new video";
+}
+
+<a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
+<h2>@ViewData["Title"]</h2>
+
+<div class="container">
+    <form asp-controller="AdministrationArea" asp-action="CreateVideo" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" />
+        </div>
+        <div class="form-group">
+            <label asp-for="VideoUrl"></label>
+            <input asp-for="VideoUrl" />
+        </div>
+        <button type="submit" class="btn-primary btn-lg">Create</button>
+    </form>
+</div>
