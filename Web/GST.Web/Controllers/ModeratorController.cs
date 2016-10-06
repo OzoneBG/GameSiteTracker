@@ -15,6 +15,9 @@
     using ViewModels.PagesViewModel;
     using ViewModels.VideosViewModels;
     using InputModels.VideosInputModels;
+    using InputModels.PicturesInputModels;
+    using ViewModels.PicturesViewModels;
+    using System.IO;
 
     public abstract class ModeratorController : BaseController
     {
@@ -23,21 +26,115 @@
         protected readonly IUsersService usersService;
         protected readonly ILogService logsService;
         protected readonly IVideosService videosService;
+        protected readonly IPicturesService picturesService;
 
         //Managers
         protected readonly UserManager<User> userManager;
 
-        public ModeratorController(IPagesService pageService, IUsersService usersService, ILogService logsService, IVideosService videosService, UserManager<User> userManager)
+        public ModeratorController(IPagesService pageService, IUsersService usersService, ILogService logsService, IVideosService videosService, IPicturesService picturesService, UserManager<User> userManager)
         {
             this.pageService = pageService;
             this.usersService = usersService;
             this.logsService = logsService;
             this.videosService = videosService;
+            this.picturesService = picturesService;
 
             this.userManager = userManager;
             
         }
 
+        [Authorize(Roles = "Administrator, Moderator")]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        public IActionResult AllUsers()
+        {
+            var allUsers = usersService.GetAllUsers().To<ViewUsersViewModel>().ToList();
+
+            return View(allUsers);
+        }
+
+        #region Pictures
+        [Authorize(Roles = "Administrator, Moderator")]
+        public IActionResult ViewPictures(int? p)
+        {
+            int page = PageChecks(p, "ViewPictures");
+
+            var allPictures = picturesService.GetAllPictures();
+
+            ViewBag.TotalLinksToDisplay = GetLinksCountFor(allPictures.Count());
+            ViewBag.CurrentPage = page;
+
+            int toSkip = GetPaginationDataToSkip(page);
+
+            var picturesList = allPictures.Skip(toSkip).Take(MaxMediaPerPage).To<AdministrationPicturesViewModel>().ToList();
+
+            return View(picturesList);
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        [HttpGet]
+        public IActionResult CreatePicture()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreatePicture(NewPictureInputModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var uploads = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+
+                if (model.File.Length > 0)
+                {
+                    var path = Path.Combine(uploads, model.File.FileName);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        //Create file
+                        model.File.CopyTo(fileStream);
+
+                        picturesService.AddPicture(model.Name, model.File.FileName);
+
+                        string content = string.Format("{0} uploaded photo: {1}", GetCurrentUserName(User.GetUserId()), model.Name);
+                        logsService.AddNewLog("Create", content);
+
+                        return RedirectToAction("ViewPictures");
+                    }
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        public IActionResult DeletePicture(int id)
+        {
+            string picName = picturesService.GetAllPictures().Where(x => x.Id == id).FirstOrDefault().Name;
+
+            string content = string.Format("{0} deleted {1}", GetCurrentUserName(User.GetUserId()), picName);
+
+            logsService.AddNewLog("Delete", content);
+
+            picturesService.DeletePicture(id);
+
+            return RedirectToAction("ViewPictures");
+        }
+        #endregion
+
+        #region Videos
+        [Authorize(Roles = "Administrator, Moderator")]
         public IActionResult DeleteVideo(int id)
         {
             string userName = GetCurrentUserName(User.GetUserId());
@@ -93,21 +190,9 @@
 
             return View(videosList);
         }
+        #endregion       
 
-        [Authorize(Roles = "Administrator, Moderator")]
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        [Authorize(Roles = "Administrator, Moderator")]
-        public IActionResult AllUsers()
-        {
-            var allUsers = usersService.GetAllUsers().To<ViewUsersViewModel>().ToList();
-
-            return View(allUsers);
-        }
-
+        #region Static Pages
         [Authorize(Roles = "Administrator, Moderator")]
         [HttpGet]
         public IActionResult EditStaticPages(string pageName)
@@ -190,6 +275,7 @@
 
             return RedirectToAction("EditStaticPages");
         }
+        #endregion
 
         #region Helpers
         protected AdministrationPageViewModel PopulateAdminPageViewModel(string pageName)

@@ -15,6 +15,9 @@
     using System.Reflection;
     using Data.Services.Interfaces;
     using Data.Services;
+    using Microsoft.Extensions.FileProviders;
+    using System.IO;
+    using Microsoft.AspNetCore.Http;
 
     public class Startup
     {
@@ -78,6 +81,9 @@
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<ILogService, LogService>();
+
+            //Directory browsing
+            services.AddDirectoryBrowser();
         }
 
 
@@ -101,6 +107,23 @@
             app.UseStaticFiles();
 
             app.UseIdentity();
+
+            //Static Files / Directory Browsing
+            app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), @"Uploads")),
+                RequestPath = new PathString("/Images")
+            });
+
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+            Path.Combine(Directory.GetCurrentDirectory(), @"Uploads")),
+                RequestPath = new PathString("/Images")
+            });
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 

@@ -1,0 +1,62 @@
+﻿@using GST.Web.ViewModels.PicturesViewModels;
+@using GST.Web.Common
+@model List<AdministrationPicturesViewModel>
+@{
+    ViewData["Title"] = "Media | Pictures";
+}
+<a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
+<h2>@ViewData["Title"]</h2>
+
+<a asp-controller="AdministrationArea" asp-action="CreatePicture"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add new Picture</a>
+
+<div class="container">
+    @if (Model.Count == 0)
+    {
+        <h3>No pictures</h3>
+    }
+    else
+    {
+        @:<div class="row">
+        int count = 0;
+        int totalSize = Model.Count;
+        foreach (var picture in Model)
+        {
+            <div class="col-md-4">
+                <div class="container">
+                    <img src="/@picture.UrlToImage" width="300" height="200" data-toggle="modal" data-target="#@count" />
+                    <div class="modal fade" id="@count" role="dialog" width="750">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">@picture.Name <a href="/@picture.UrlToImage">View full size</a></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="/@picture.UrlToImage" width="560" height="350" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a asp-action="DeletePicture" asp-controller="AdministrationArea" asp-route-id="@picture.Id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                </div>
+            </div>
+            count++;
+            totalSize--;
+            if (count % 3 == 0)
+            {
+                if (totalSize > 0)
+                {
+                    @:</div><br /><div class="row">
+                }
+                else
+                {
+                    @:</div>
+                }
+            }
+        }
+    }
+</div>
+@await Component.InvokeAsync("PageNavigation", new { currentPage = ViewBag.CurrentPage, totalLinksToDisplay = ViewBag.TotalLinksToDisplay, redirectActionName = "Pictures" })
