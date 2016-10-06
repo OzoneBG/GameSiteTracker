@@ -1,0 +1,53 @@
+﻿@using GST.Web.ViewModels
+@model ProgressDataViewModel
+@{
+    ViewData["Title"] = "Edit Game Info";
+}
+<a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
+<h2>@ViewData["Title"]</h2>
+
+<div class="container">
+    <form asp-action="EditGameInfo" asp-controller="AdministrationArea" method="post">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="TotalDownloads">Total Downloads</label>
+            </div>
+            <div class="col-md-2">
+                <input asp-for="@Model.TotalDownloads" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="LatestBuild">Latest Build</label>
+            </div>
+            <div class="col-md-2">
+                <input asp-for="@Model.LatestBuild" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="ETA">Estimated Time Arrival</label>
+            </div>
+            <div class="col-md-2">
+                <input asp-for="@Model.ETA" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="CurrentVersionTasks">Current Version Tasks</label>
+            </div>
+            <div class="col-md-2">
+                <input asp-for="@Model.CurrentVersionTasks" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="CompletedTasks">Completed Tasks</label>
+            </div>
+            <div class="col-md-2">
+                <input asp-for="@Model.CompletedTasks" />
+            </div>
+        </div>
+        <button type="submit" class="btn-primary btn-lg">Save</button>
+    </form>
+</div>

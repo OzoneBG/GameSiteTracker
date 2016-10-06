@@ -18,6 +18,8 @@
     using InputModels.PicturesInputModels;
     using ViewModels.PicturesViewModels;
     using System.IO;
+    using Newtonsoft.Json;
+    using ViewModels;
 
     public abstract class ModeratorController : BaseController
     {
@@ -56,6 +58,37 @@
 
             return View(allUsers);
         }
+
+        #region Game Information
+        [Authorize(Roles = "Administrator, Moderator")]
+        [HttpGet]
+        public IActionResult EditGameInfo()
+        {
+            string json = System.IO.File.ReadAllText("progressdata.json");
+            var gameInfo = JsonConvert.DeserializeObject<ProgressDataViewModel>(json);
+
+            return View(gameInfo);
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditGameInfo(ProgressDataViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string json = JsonConvert.SerializeObject(model);
+                System.IO.File.WriteAllText("progressdata.json", json);
+
+                return RedirectToAction("EditGameInfo");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        #endregion
 
         #region Pictures
         [Authorize(Roles = "Administrator, Moderator")]
