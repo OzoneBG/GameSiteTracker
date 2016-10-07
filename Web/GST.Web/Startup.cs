@@ -63,6 +63,8 @@
             .AddDefaultTokenProviders();
 
             services.AddMvc();
+            services.AddSession();
+            //services.AddCaching();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -124,6 +126,9 @@
             Path.Combine(Directory.GetCurrentDirectory(), @"Uploads")),
                 RequestPath = new PathString("/Images")
             });
+
+            app.UseDeveloperExceptionPage();
+            app.UseSession();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
