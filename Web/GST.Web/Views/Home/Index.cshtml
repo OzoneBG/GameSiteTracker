@@ -8,21 +8,32 @@
 <h4 class="content-header">Latest news</h4>
 <hr />
 
-@foreach (var post in Model)
-{
-    <div class="new">
-        <table class="table table-bordered">
-            @{ 
-                var ci = new CultureInfo("en-US");
-            }
-            <tr><td><span class="new-title">@post.Title</span> <span class="new-post-info">posted on @post.CreatedOn.ToString("d", ci) by @post.Author.UserName</span></td></tr>
-            <tr>
-                <td>
-                    @Html.Raw(post.Content)
-                </td>
-            </tr>
-        </table>
-    </div>
+@{
+    if (Model.Count > 0)
+    {
+        @foreach (var post in Model)
+        {
+            <div class="new">
+                <table class="table table-bordered">
+                    @{
+                        var ci = new CultureInfo("en-US");
+                    }
+                    <tr><td><span class="new-title">@post.Title</span> <span class="new-post-info">posted on @post.CreatedOn.ToString("d", ci) by @post.Author.UserName</span></td></tr>
+                    <tr>
+                        <td>
+                            @Html.Raw(post.Content)
+                        </td>
+                    </tr>
+                </table>
+            </div>
+         }
+    }
+    else
+    {
+        <h3>No posts</h3>
+    }
 }
+
+
 
 @await Component.InvokeAsync("PageNavigation", new { currentPage = ViewBag.CurrentPage, totalLinksToDisplay = ViewBag.TotalLinksToDisplay, redirectActionName = "Index" })

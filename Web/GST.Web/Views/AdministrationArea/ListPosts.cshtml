@@ -1,0 +1,54 @@
+﻿@using GST.Web.ViewModels.PostsViewModels
+@model List<ListPostsViewModel>
+@{
+    ViewData["Title"] = "Posts";
+}
+
+<a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
+<h2>@ViewData["Title"]</h2>
+
+<a asp-action="CreatePost" asp-controller="AdministrationArea"><span class="glyphicon glyphicon-plus" aria-hidden="true">New Post</span></a>
+
+@if (Model.Count > 0)
+{
+    <div class="container">
+        <h2>All Posts</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Last modified on</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var post in Model)
+                {
+                    <tr>
+                        <td>@post.Id</td>
+                        <td><a asp-action="EditPost" asp-controller="AdministrationArea" asp-route-id="@post.Id">@post.Title</a></td>
+                        <td>@post.Author.UserName</td>
+                        <td>
+                            @if (post.ModifiedOn == null)
+                            {
+                                @post.CreatedOn
+                            }
+                            else
+                            {
+                                @post.ModifiedOn
+                            }
+                        </td>
+                        <td><a asp-action="DeletePost" asp-controller="AdministrationArea" asp-route-id="@post.Id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @await Component.InvokeAsync("PageNavigation", new { currentPage = ViewBag.CurrentPage, totalLinksToDisplay = ViewBag.TotalLinksToDisplay, redirectActionName = "ListPosts", controllerName = "AdministrationArea" })
+    </div>
+}
+else
+{
+    <center><h3>No posts</h3></center>
+}

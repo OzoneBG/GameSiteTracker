@@ -20,6 +20,8 @@
     using System.IO;
     using Newtonsoft.Json;
     using ViewModels;
+    using ViewModels.PostsViewModels;
+    using InputModels.PostsInputModels;
 
     public abstract class ModeratorController : BaseController
     {
@@ -29,17 +31,25 @@
         protected readonly ILogService logsService;
         protected readonly IVideosService videosService;
         protected readonly IPicturesService picturesService;
+        protected readonly IPostsService postsService;
 
         //Managers
         protected readonly UserManager<User> userManager;
 
-        public ModeratorController(IPagesService pageService, IUsersService usersService, ILogService logsService, IVideosService videosService, IPicturesService picturesService, UserManager<User> userManager)
+        public ModeratorController(IPagesService pageService,
+            IUsersService usersService,
+            ILogService logsService,
+            IVideosService videosService,
+            IPicturesService picturesService,
+            IPostsService postsService,
+            UserManager<User> userManager)
         {
             this.pageService = pageService;
             this.usersService = usersService;
             this.logsService = logsService;
             this.videosService = videosService;
             this.picturesService = picturesService;
+            this.postsService = postsService;
 
             this.userManager = userManager;
             
@@ -58,6 +68,95 @@
 
             return View(allUsers);
         }
+
+        #region Posts
+        [Authorize(Roles = "Administrator, Moderator")]
+        public IActionResult ListPosts(int? p)
+        {
+            int page = PageChecks(p, "ListPosts");
+
+            var allPosts = postsService.GetAllPosts();
+
+            ViewBag.TotalLinksToDisplay = GetLinksCountFor(allPosts.Count());
+            ViewBag.CurrentPage = page;
+
+            int toSkip = GetPaginationDataToSkip(page);
+
+            var postsList = allPosts.Skip(toSkip).Take(GlobalConstants.MaxMediaForAdmin).To<ListPostsViewModel>().ToList();
+
+            return View(postsList);
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        [HttpGet]
+        public IActionResult CreatePost()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreatePost(NewPostInputModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                postsService.AddPost(model.Title, model.Content, GetCurrentUser(User.GetUserId()).Result.Id);
+
+                string contents = string.Format("{0} added new post {1}", GetCurrentUserName(User.GetUserId()), model.Title);
+                logsService.AddNewLog("Create", contents);
+
+                return RedirectToAction("ListPosts");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        [HttpGet]
+        public IActionResult EditPost(int id)
+        {
+            var post = postsService.GetPostWithId(id).To<EditPostViewModel>().FirstOrDefault();
+
+            return View(post);
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditPost(EditPostViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                postsService.EditPost(model.Id, model.Title, model.Content);
+
+                string content = string.Format("{0} edited post {1}", GetCurrentUserName(User.GetUserId()), model.Title);
+                logsService.AddNewLog("Create", content);
+
+                return RedirectToAction("EditPost", new { id = model.Id });
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [Authorize(Roles = "Administrator, Moderator")]
+        public IActionResult DeletePost(int id)
+        {
+            string postTitle = postsService.GetPostWithId(id).FirstOrDefault().Title;
+            string content = string.Format("{0} deleted post {1}", GetCurrentUserName(User.GetUserId()), postTitle);
+            logsService.AddNewLog("Delete", content);
+
+            postsService.DeletePost(id);
+
+            return RedirectToAction("ListPosts");
+        }
+
+        #endregion
 
         #region Game Information
         [Authorize(Roles = "Administrator, Moderator")]

@@ -7,5 +7,7 @@
         public static int MaxPostsPerPage { get { return 5; } }
 
         public static int MaxLogsPerPage { get { return 50; } }
+
+        public static int MaxMediaForAdmin { get { return 25; } }
     }
 }

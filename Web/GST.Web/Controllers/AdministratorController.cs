@@ -12,7 +12,14 @@
 
     public abstract class AdministratorController : ModeratorController
     {
-        public AdministratorController(IPagesService pageService, IUsersService usersService, ILogService logsService, IVideosService videosService, IPicturesService picturesService, UserManager<User> userManger) : base(pageService, usersService, logsService, videosService, picturesService, userManger)
+        public AdministratorController(IPagesService pageService,
+            IUsersService usersService,
+            ILogService logsService,
+            IVideosService videosService,
+            IPicturesService picturesService,
+            IPostsService postsService,
+            UserManager<User> userManger) 
+            : base(pageService, usersService, logsService, videosService, picturesService, postsService, userManger)
         {
         }
 

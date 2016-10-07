@@ -1,8 +1,4 @@
-﻿@{ 
-    Layout = "_AdminLayout";
-}
-
-@{ ViewData["Title"] = "Administration Area"; }
+﻿@{ ViewData["Title"] = "Administration Area"; }
 
 <div class="container">
     <h2>Administration Area</h2>
@@ -10,7 +6,7 @@
     <ul class="list-group">
         <li class="list-group-item"><a asp-action="AllUsers" asp-controller="AdministrationArea">Users</a></li>
         <li class="list-group-item"><a asp-action="EditGameInfo" asp-controller="AdministrationArea">Game Information</a></li>
-        <li class="list-group-item">Posts</li>
+        <li class="list-group-item"><a asp-action="ListPosts" asp-controller="AdministrationArea">Posts</a></li>
         <li class="list-group-item"><a asp-action="ViewPictures" asp-controller="AdministrationArea">Pictures</a></li>
         <li class="list-group-item"><a asp-action="ViewVideos" asp-controller="AdministrationArea">Videos</a></li>
         <li class="list-group-item"><a asp-action="EditStaticPages" asp-controller="AdministrationArea">Static pages</a></li>

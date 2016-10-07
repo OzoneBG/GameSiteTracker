@@ -1,0 +1,33 @@
+﻿@using GST.Web.InputModels.PostsInputModels
+@model NewPostInputModel
+@{ 
+    ViewData["Title"] = "New Post";
+}
+<a asp-controller="AdministrationArea" asp-action="ListPosts">&laquo; Back</a>
+<h2>@ViewData["Title"]</h2>
+
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: "textarea",
+            plugins: "link image code",
+            relative_urls: false,
+            remove_script_host: false
+        });
+    </script>
+}
+
+<div class="container">
+    <form method="post" asp-action="CreatePost" asp-controller="AdministrationArea">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" />
+        </div>
+        <br />
+        <p>Contents</p>
+        <textarea name="Content" rows="20" cols="120"></textarea>
+        <br />
+        <button type="submit" class="btn-primary btn-lg">Create</button>
+    </form>
+</div>

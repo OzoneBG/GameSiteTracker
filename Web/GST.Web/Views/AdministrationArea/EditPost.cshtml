@@ -1,0 +1,31 @@
+﻿@using GST.Web.ViewModels.PostsViewModels
+@model EditPostViewModel
+@{
+    ViewData["Title"] = "Edit Post";
+}
+
+<a asp-controller="AdministrationArea" asp-action="ListPosts">&laquo; Back</a>
+<h2>@ViewData["Title"]</h2>
+
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: "textarea",
+            plugins: "link image code",
+            relative_urls: false,
+            remove_script_host: false
+        });
+    </script>
+}
+
+<div class="container">
+    <form method="post" asp-action="EditPost" asp-controller="AdministrationArea">
+        <label asp-for="@Model.Title"></label>
+        <input asp-for="@Model.Title" />
+        <br />
+        <p>Contents</p>
+        <textarea name="Content" rows="20" cols="120">@Model.Content</textarea>
+        <br />
+        <button type="submit" class="btn-primary btn-lg">Save</button>
+    </form>
+</div>
