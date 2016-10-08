@@ -4,8 +4,7 @@
     ViewData["Title"] = "Users";
     int count = 0;
 }
-<a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
-<h2>@ViewData["Title"]</h2>
+@Html.Partial("_BackOptionPartial");
 
 @{
     if (User.IsInRole("Administrator"))
@@ -15,29 +14,34 @@
 }
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-1">Id</div>
-        <div class="col-md-2">Username</div>
-        <div class="col-md-1">Delete</div>
-    </div>
-    @{ 
-        foreach (var user in Model)
-        {
-            count++;
-            <div class="row">
-                <div class="col-md-1"><p>@count</p></div>
-                <div class="col-md-2"><p>@user.UserName</p></div>
-                @{
-                    if (User.IsInRole("Administrator"))
-                    {
-                        <div class="col-md-1"><a asp-action="RemoveUser" asp-controller="AdministrationArea" asp-route-guid="@user.Id"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a></div>
-                    }
-                    else
-                    {
-                        <div class="col-md-1"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></div>
-                    }
-                }
-            </div>
-        }
-    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.UserName</td>
+                    <td>
+                        @{
+                            if (User.IsInRole("Administrator"))
+                            {
+                                <div class="col-md-1"><a asp-action="RemoveUser" asp-controller="AdministrationArea" asp-route-guid="@user.Id"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a></div>
+                            }
+                            else
+                            {
+                                <div class="col-md-1"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></div>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

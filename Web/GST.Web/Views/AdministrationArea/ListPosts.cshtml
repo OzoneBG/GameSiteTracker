@@ -3,9 +3,7 @@
 @{
     ViewData["Title"] = "Posts";
 }
-
-<a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
-<h2>@ViewData["Title"]</h2>
+@Html.Partial("_BackOptionPartial")
 
 <a asp-action="CreatePost" asp-controller="AdministrationArea"><span class="glyphicon glyphicon-plus" aria-hidden="true">New Post</span></a>
 

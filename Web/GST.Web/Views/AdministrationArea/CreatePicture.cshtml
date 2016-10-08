@@ -3,8 +3,7 @@
 @{
     ViewData["Title"] = "Create new video";
 }
-<a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
-<h2>@ViewData["Title"]</h2>
+@Html.Partial("_BackOptionPartial")
 
 <div class="container">
     <form asp-controller="AdministrationArea" asp-action="CreatePicture" method="post" enctype="multipart/form-data">

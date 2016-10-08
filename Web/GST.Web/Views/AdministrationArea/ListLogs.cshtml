@@ -4,37 +4,30 @@
     ViewData["Title"] = "Logs";
     int count = 0;
 }
-
-<a asp-controller="AdministrationArea" asp-action="Index">&laquo; Back</a>
-<h2>@ViewData["Title"]</h2>
+@Html.Partial("_BackOptionPartial")
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-1">
-            Id
-        </div>
-        <div class="col-md-2">
-            Category
-        </div>
-        <div class="col-md-7">
-            Content
-        </div>
-        <div class="col-md-2">
-            Created On
-        </div>
-    </div>
-    @{
-        foreach (var log in Model)
-        {
-            count++;
-            <div class="row">
-                <div class="col-md-1">@count</div>
-                <div class="col-md-2">@log.Category</div>
-                <div class="col-md-7">@log.Content</div>
-                <div class="col-md-2">@log.CreatedOn.ToString("d")</div>
-            </div>
-        }
-    }
+    <h2>Logs</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Category</th>
+                <th>Content</th>
+                <th>Created On</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var log in Model)
+            {
+                <tr>
+                    <td>@log.Id</td>
+                    <td>@log.Category</td>
+                    <td>@log.Content</td>
+                    <td>@log.CreatedOn</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
-
 @await Component.InvokeAsync("PageNavigation", new { currentPage = ViewBag.CurrentPage, totalLinksToDisplay = ViewBag.TotalLinksToDisplay, redirectActionName = "ListLogs", controllerName = "AdministrationArea" })
