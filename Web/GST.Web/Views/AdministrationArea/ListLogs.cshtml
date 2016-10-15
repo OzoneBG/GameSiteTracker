@@ -1,11 +1,17 @@
-﻿@using GST.Web.ViewModels.LogsViewModels
-@model List<LogsViewModel>
-@{
+﻿@{
     ViewData["Title"] = "Logs";
-    int count = 0;
 }
 @Html.Partial("_BackOptionPartial")
 
+@section Scripts {
+    <script>
+        var model = JSON.parse('@Html.Raw(ViewBag.Json)')
+        var lastEntry = "";
+    </script>
+}
+<form>
+    <input style="color:black;" type="text" name="category" id="searchField" placeholder="Filter logs" />
+</form>
 <div class="container">
     <h2>Logs</h2>
     <table class="table">
@@ -18,15 +24,6 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var log in Model)
-            {
-                <tr>
-                    <td>@log.Id</td>
-                    <td>@log.Category</td>
-                    <td>@log.Content</td>
-                    <td>@log.CreatedOn</td>
-                </tr>
-            }
         </tbody>
     </table>
 </div>

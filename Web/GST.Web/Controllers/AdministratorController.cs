@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
     using System.Linq;
     using ViewModels.LogsViewModels;
 
@@ -48,7 +49,9 @@
 
             var logsList = allLogs.Skip(toSkip).Take(MaxLogsPerPage).To<LogsViewModel>().ToList();
 
-            return View(logsList);
+            ViewBag.Json = JsonConvert.SerializeObject(logsList);
+
+            return View();
         }
     }
 }
