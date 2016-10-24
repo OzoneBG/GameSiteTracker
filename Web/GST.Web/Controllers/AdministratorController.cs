@@ -47,7 +47,7 @@
 
             int toSkip = GetPaginationDataToSkip(page);
 
-            var logsList = allLogs.Skip(toSkip).Take(MaxLogsPerPage).To<LogsViewModel>().OrderBy(x => x.CreatedOn).ToList();
+            var logsList = allLogs.Skip(toSkip).Take(MaxLogsPerPage).To<LogsViewModel>().ToList();
 
             ViewBag.Json = JsonConvert.SerializeObject(logsList);
 
