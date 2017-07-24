@@ -56,6 +56,14 @@
         {
             return (page * MaxMediaPerPage) - MaxMediaPerPage;
         }
+
+        protected int GetSkipCount(int count, int page)
+        {
+            ViewBag.TotalLinksToDisplay = GetLinksCountFor(count);
+            ViewBag.CurrentPage = page;
+
+            return GetPaginationDataToSkip(page);
+        }
         #endregion
     }
 }

@@ -51,14 +51,12 @@
 
             var allVideos = videosService.GetAllVideos();
 
-            ViewBag.TotalLinksToDisplay = GetLinksCountFor(allVideos.Count());
-            ViewBag.CurrentPage = page;
+            var vidList = allVideos
+                .Skip(GetSkipCount(allVideos.Count(), page))
+                .Take(MaxMediaPerPage).To<VideosViewModel>()
+                .ToList();
 
-            int toSkip = GetPaginationDataToSkip(page);
-
-            var videosList = allVideos.Skip(toSkip).Take(MaxMediaPerPage).To<VideosViewModel>().ToList();
-
-            return View(videosList);
+            return View(vidList);
         }
 
         public IActionResult Pictures(int? p)
@@ -67,12 +65,10 @@
 
             var allPics = picturesService.GetAllPictures();
 
-            ViewBag.TotalLinksToDisplay = GetLinksCountFor(allPics.Count());
-            ViewBag.CurrentPage = page;
-
-            int toSkip = GetPaginationDataToSkip(page);
-
-            var picsList = allPics.Skip(toSkip).Take(MaxMediaPerPage).To<PicturesViewModel>().ToList();
+            var picsList = allPics
+                .Skip(GetSkipCount(allPics.Count(), page))
+                .Take(MaxMediaPerPage).To<PicturesViewModel>()
+                .ToList();
 
             return View(picsList);
         }
